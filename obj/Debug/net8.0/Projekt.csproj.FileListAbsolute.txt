@@ -12,3 +12,4 @@ C:\Users\micha\OneDrive\Desktop\codin\ZTP\Projekt\obj\Debug\net8.0\refint\Projek
 C:\Users\micha\OneDrive\Desktop\codin\ZTP\Projekt\obj\Debug\net8.0\Projekt.pdb
 C:\Users\micha\OneDrive\Desktop\codin\ZTP\Projekt\obj\Debug\net8.0\Projekt.genruntimeconfig.cache
 C:\Users\micha\OneDrive\Desktop\codin\ZTP\Projekt\obj\Debug\net8.0\ref\Projekt.dll
+C:\Users\micha\OneDrive\Desktop\codin\ZTP\Projekt\obj\Debug\net8.0\Projekt.sourcelink.json
