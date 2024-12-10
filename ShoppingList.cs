@@ -1,3 +1,4 @@
+using RecipeNamespace;
 namespace ShoppingListNamespace{
     public class ShoppingItem
 {
@@ -20,6 +21,7 @@ public interface IShoppingList
     void MarkAsAdded(Product product);
     void DisplayProducts();
     List<ShoppingItem> GetItems();
+    void GenerateFromRecipe(Recipe recipe);
 }
 
 public class ShoppingList : IShoppingList
@@ -97,6 +99,10 @@ public abstract class ShoppingListDecorator : IShoppingList
     public virtual void AddProduct(Product product, int quantity)
     {
         shoppingList.AddProduct(product, quantity);
+    }
+    public virtual void GenerateFromRecipe(Recipe recipe)
+    {
+        shoppingList.GenerateFromRecipe(recipe);
     }
 
     public virtual void RemoveProduct(Product product)
