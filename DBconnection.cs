@@ -134,14 +134,7 @@ public class DatabaseConnection : IDatabaseConnection {
             }
         }
     }
-class AbstractProd{
 
-    public override string ToString()
-    {
-        return "AHAHAH";
-    }
-
-}
 
 // public class Ztp01 {
 //     public static void Main(string[] args) {
