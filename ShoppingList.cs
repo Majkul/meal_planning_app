@@ -38,7 +38,13 @@ public class ShoppingList : IShoppingList
             items.Add(new ShoppingItem(product, quantity));
         }
     }
-
+    public void GenerateFromRecipe(Recipe recipe)
+    {
+        // foreach (var ingredient in recipe.Ingredients.Ingredients)
+        // {
+        //     AddProduct(ingredient.Key, (int)ingredient.Value);
+        // }
+    }
     public void RemoveProduct(Product product)
     {
         var existingItem = items.FirstOrDefault(i => i.Product == product);
