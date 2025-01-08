@@ -4,11 +4,11 @@ using System.Text;
 using System.Text.Json;
 
 namespace Adapter{
-    public interface ISerializableAdapter {
+public interface ISerializableAdapter {
     string Serialize();
     }
 
-    public class JsonAdapter<T> : ISerializableAdapter {
+public class JsonAdapter<T> : ISerializableAdapter {
         private readonly T _object;
 
         public JsonAdapter(T obj) {
@@ -20,7 +20,7 @@ namespace Adapter{
         }
     }
 
-    public class XmlAdapter<T> : ISerializableAdapter {
+public class XmlAdapter<T> : ISerializableAdapter {
         private readonly T _object;
 
         public XmlAdapter(T obj) {
@@ -37,7 +37,7 @@ namespace Adapter{
     }
 
 
-    public class TxtAdapter<T> : ISerializableAdapter {
+public class TxtAdapter<T> : ISerializableAdapter {
         private readonly T _object;
 
         public TxtAdapter(T obj) {
