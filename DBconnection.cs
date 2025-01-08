@@ -3,8 +3,6 @@ namespace DBconnection{
     
 public class ConnectionManager{
     private static ConnectionManager? instance;
-    //private static ObjectPool Pooler = new ObjectPool();
-
     private ConnectionManager(){
 
     }
@@ -135,23 +133,3 @@ public class DatabaseConnection : IDatabaseConnection {
         }
     }
 
-
-// public class Ztp01 {
-//     public static void Main(string[] args) {
-
-//         ConnectionManager connectionManager = ConnectionManager.getInstance();
-
-//         // Uzyskanie połączenia do Baz Danych
-
-//         DatabaseConnection connection1 = connectionManager.getConnection("Produkty");
-        
-
-//         connection1.AddRecord(new AbstractProd());
-
-//         connection1.ShowAllRecords();
-
-//         //It just works, somehow
-
-//     }
-// }
-}
