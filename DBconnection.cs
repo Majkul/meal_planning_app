@@ -1,135 +1,150 @@
 using System.Data;
-namespace DBconnection{
+namespace DBconnection {
     
-public class ConnectionManager{
+public class ConnectionManager {
     private static ConnectionManager? instance;
-    private ConnectionManager(){
+    private ConnectionManager() { }
 
-    }
-    public static ConnectionManager getInstance(){
-        if(instance == null){
+    public static ConnectionManager getInstance() {
+        if (instance == null) {
             instance = new ConnectionManager();
         }
         return instance;
     }
+
     /// <summary>
     /// Creates or gets instance of a table inside the DB
     /// Param is the name of said table
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public DatabaseConnection getConnection(string name){
-        return new DatabaseConnection(name);
+    public DatabaseConnection<T> getConnection<T>(string name) {
+        return new DatabaseConnection<T>(name);
     }
-
 }
 
+public interface IDatabaseConnection<T> {
+    int AddRecord(T obj);
 
-public interface IDatabaseConnection {
-    int AddRecord(Object obj);
-
-    void UpdateRecord(int id, Object obj);
+    void UpdateRecord(int id, T obj);
 
     void DeleteRecord(int id);
 
-    Record<Object>? GetRecord(int id);
+    Record<T>? GetRecordById(int id);
+
+    Record<T>? GetRecordByName(string name);
+
+    List<Record<T>> GetAllRecords();
+    T? GetLastRecord();
 
     void ShowAllRecords();
 }
 
 // Prosty rekord w bazie danych
-public class Record<Object> {
+public class Record<T> {
     public int Id { get; set; }
+    public T obj;
 
-    public Object obj;
-
-    public Record(int Id,Object obj){
+    public Record(int Id, T obj) {
         this.Id = Id;
         this.obj = obj;
     }
 
     public override string ToString() {
-        return obj.ToString() ?? "Brak ToStringa()";
+        return obj?.ToString() ?? "Brak ToStringa()";
     }
 }
 
 // Prosta baza danych
-public class Database {
+public class Database<T> {
+    private static Dictionary<string, Database<T>> instances = new();
 
-    private static Dictionary<String,Database> instances = new Dictionary<string, Database>();
-    
-    public readonly List<Record<Object>> records; // Lista przechowująca rekordy
-    // WARN: CAN HOLD MULTIPLE TYPES, THERE IS NO DEFENSE MECHANISM AGAINST THIS.
+    public readonly List<Record<T>> records; // Lista przechowująca rekordy
     public int nextId = 1; // Licznik do generowania unikalnych ID
     public int dbId = 0;
+
     private Database() {
         this.dbId = nextId++;
-        records = new List<Record<Object>>();
+        records = new List<Record<T>>();
     }
 
-    public static Database getInstance(string key){
-        if(! instances.ContainsKey(key)){
-            //init multiton inst
-            instances.Add(key,new Database());
-            
+    public static Database<T> getInstance(string key) {
+        if (!instances.ContainsKey(key)) {
+            // init multiton instance
+            instances.Add(key, new Database<T>());
         }
         return instances[key];
-        
     }
 }
-public class DatabaseConnection : IDatabaseConnection {
-        private readonly Database db;
 
-        public DatabaseConnection(string name) {
-            db = Database.getInstance(name);
-        }
+public class DatabaseConnection<T> : IDatabaseConnection<T> {
+    private readonly Database<T> db;
 
-        // Dodawanie nowego rekordu
-        public int AddRecord(Object obj) {
-            Record<Object> newRecord = new(db.nextId++, obj);
-            db.records.Add(newRecord);
-            Console.WriteLine($"Inserted: {newRecord}");
-            return db.nextId - 1; // zwracamy id dodanego rekordu
-        }
+    public DatabaseConnection(string name) {
+        db = Database<T>.getInstance(name);
+    }
 
-        // Pobieranie rekordu po ID
-        public Record<Object>? GetRecord(int id) {
-            return db.records.Where(rec => rec.Id == id).FirstOrDefault();
-        }
+    // Dodawanie nowego rekordu
+    public int AddRecord(T obj) {
+        Record<T> newRecord = new(db.nextId++, obj);
+        db.records.Add(newRecord);
+        Console.WriteLine($"Inserted: {newRecord}");
+        return db.nextId - 1; // Zwracamy id dodanego rekordu
+    }
 
-        // Aktualizowanie rekordu po ID
-        public void UpdateRecord(int id, object obj) {
-            Record<Object>? optionalRecord = GetRecord(id);
+    // Pobieranie rekordu po ID
+    public Record<T>? GetRecordById(int id) {
+        return db.records.Where(rec => rec.Id == id).FirstOrDefault();
+    }
 
-            if (optionalRecord != null) {
-                Record<Object> record = optionalRecord;
-                record.obj = obj;
-                Console.WriteLine($"Updated: {record}");
-            } else {
-                Console.WriteLine($"Record with ID {id} not found.");
-            }
-        }
+    // Pobieranie rekordu po nazwie
+    public Record<T>? GetRecordByName(string name) {
+        return db.records.FirstOrDefault(rec => rec.obj?.ToString() == name); // Wymaga, aby T miało poprawne ToString()
+    }
 
-        // Usuwanie rekordu po ID
-        public void DeleteRecord(int id) {
-            Record<Object>? optionalRecord = GetRecord(id);
+    // Aktualizowanie rekordu po ID
+    public void UpdateRecord(int id, T obj) {
+        Record<T>? optionalRecord = GetRecordById(id);
 
-            if (optionalRecord != null) {
-                db.records.Remove(optionalRecord);
-                Console.WriteLine($"Deleted record with ID {id}");
-            } else {
-                Console.WriteLine($"Record with ID {id} not found.");
-            }
-        }
-
-        // Wyświetlanie wszystkich rekordów
-        public void ShowAllRecords() {
-            if (db.records.Any()) {
-                Console.WriteLine("All records:");
-                db.records.ForEach(r => Console.WriteLine(r));
-            } else {
-                Console.WriteLine("No records in the database.");
-            }
+        if (optionalRecord != null) {
+            Record<T> record = optionalRecord;
+            record.obj = obj;
+            Console.WriteLine($"Updated: {record}");
+        } else {
+            Console.WriteLine($"Record with ID {id} not found.");
         }
     }
 
+    // Usuwanie rekordu po ID
+    public void DeleteRecord(int id) {
+        Record<T>? optionalRecord = GetRecordById(id);
+
+        if (optionalRecord != null) {
+            db.records.Remove(optionalRecord);
+            Console.WriteLine($"Deleted record with ID {id}");
+        } else {
+            Console.WriteLine($"Record with ID {id} not found.");
+        }
+    }
+
+    // Pobieranie wszystkich rekordów
+    public List<Record<T>> GetAllRecords() {
+        return db.records;
+    }
+    // Pobieranie ostatniego rekordu
+    public T? GetLastRecord() {
+        var record = db.records.LastOrDefault();
+        return record != null ? record.obj : default;
+    }
+    
+    // Wyświetlanie wszystkich rekordów
+    public void ShowAllRecords() {
+        if (db.records.Any()) {
+            Console.WriteLine("All records:");
+            db.records.ForEach(r => Console.WriteLine(r));
+        } else {
+            Console.WriteLine("No records in the database.");
+        }
+    }
+}
+}

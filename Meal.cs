@@ -1,6 +1,7 @@
+using System.Text.Json;
 using RecipeNamespace;
 namespace Meal{
-    class Meal {
+class Meal {
     public string Name { get; set; }
     public enum MealType {
         Breakfast,
@@ -9,7 +10,9 @@ namespace Meal{
         Dessert
     }
     public List<Recipe> Recipes { get; set; }
-
+    public Meal(){
+        Recipes = new List<Recipe>();
+    }
     public class MealMemento {
         public string Name { get; set; }
         public List<Recipe> Recipes { get; set; }
@@ -54,6 +57,20 @@ class MealHistory {
     public void Print() {
         foreach (var memento in History) {
             Console.WriteLine($"Name: {memento.Name}");
+        }
+    }
+
+    public void SaveToFile(string filePath) {
+        var json = JsonSerializer.Serialize(History);
+        File.WriteAllText(filePath, json);
+    }
+
+    public void LoadFromFile(string filePath) {
+        if (File.Exists(filePath)) {
+            var json = File.ReadAllText(filePath);
+            History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json);
+        } else {
+            History = new List<Meal.MealMemento>();
         }
     }
 }
