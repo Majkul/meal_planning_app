@@ -42,10 +42,11 @@ public class ShoppingList : IShoppingList
     }
     public void GenerateFromRecipe(Recipe recipe)
     {
-        // foreach (var ingredient in recipe.Ingredients.Ingredients)
-        // {
-        //     AddProduct(ingredient.Key, (int)ingredient.Value);
-        // }
+        foreach (var ingredient in recipe.Ingredients.Ingredients)
+        {
+            Console.WriteLine("lol");
+            AddProduct(ingredient.Key, (int)ingredient.Value);
+        }
     }
     public void RemoveProduct(Product product)
     {

@@ -1,0 +1,18 @@
+[
+    {
+      "Name": "Apple",
+      "Category": 0,
+      "Unit": 0,
+      "Protein": 0.3,
+      "Fat": 0.2,
+      "Carbohydrates": 25.0
+    },
+    {
+      "Name": "Banana",
+      "Category": 0,
+      "Unit": 0,
+      "Protein": 1.1,
+      "Fat": 0.3,
+      "Carbohydrates": 27.0
+    }
+  ]

@@ -16,4 +16,7 @@ public class Product {
         Fat = fat;
         Carbohydrates = carbohydrates;
     }
+    public override string ToString() {
+        return $"{Name} ({Category})";
+    }
 }

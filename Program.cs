@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Globalization;
 using RecipeNamespace;
 using DBconnection;
@@ -145,6 +146,28 @@ public class Program {
 
         return mealsForDate;
     }
+    static public List<Product> LoadProductsFromFile(string filePath) {
+        List<Product> products;
+        if (File.Exists(filePath)) {
+            var json = File.ReadAllText(filePath);
+            // Deserializacja JSON do listy produktów
+            products = JsonSerializer.Deserialize<List<Product>>(json);
+        } else {
+            products = new List<Product>();
+        }
+        return products;
+    }
+    static public List<Recipe> LoadRecipesFromFile(string filePath) {
+        List<Recipe> products;
+        if (File.Exists(filePath)) {
+            var json = File.ReadAllText(filePath);
+            // Deserializacja JSON do listy produktów
+            products = JsonSerializer.Deserialize<List<Recipe>>(json);
+        } else {
+            products = new List<Recipe>();
+        }
+        return products;
+    }
     public static void Main()
     {
         //Tworzenie interfejsu
@@ -206,11 +229,22 @@ public class Program {
         }
         //Bazy danychy
         var RecipesDatabase = ConnectionManager.getInstance().getConnection<RecipeNamespace.Recipe>("Recipes");
+        var ProductsDatabase = ConnectionManager.getInstance().getConnection<Product>("Products");
 
         //Tutaj będzie odczytywanie do bazy danych z plików jakichś przykąłdowych rekodrów
+        List<Product> productsList = LoadProductsFromFile("products.json");
+        foreach (var product in productsList)
+        {
+            ProductsDatabase.AddRecord(product);
+        }
 
+        List<Recipe> recipesList = LoadRecipesFromFile("recipes.json");
+        foreach (var recipe in recipesList)
+        {
 
-
+            Console.WriteLine(recipe);
+        }
+        
         // Załaduj historię z pliku, jeśli istnieje
         if (File.Exists(historyFilePath)) {
             mealHistory.LoadFromFile(historyFilePath);
@@ -222,6 +256,7 @@ public class Program {
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >");
         Console.WriteLine("2. Dodaj posiłek");
+        Console.WriteLine("3. Wyświetlanie listy zakupów");
         Console.WriteLine("0. Wyjdź");
         opcja = Console.ReadLine();
         switch(opcja){
@@ -346,6 +381,32 @@ public class Program {
                 break;
 
             case "3":
+                Console.WriteLine("Wybierz zakres dat:");
+                Console.Write("Od: ");
+                //DateTime startDate = DateTime.Parse(Console.ReadLine());
+                DateTime startDate = today;
+                Console.Write("Do: ");
+                //DateTime endDate = DateTime.Parse(Console.ReadLine());
+                DateTime endDate = today.AddDays(3);
+                ShoppingList shoppingList = new ShoppingList();
+                var mealsInRange = mealHistory.History
+                    .Where(m => m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
+                    .ToList();
+
+                foreach (var meal in mealsInRange)
+                {
+                    foreach(var recip in meal.Recipes)
+                    {
+                        foreach(var ingredient in recip.Ingredients.Ingredients)
+                        {
+                            Console.WriteLine(ingredient.Key.Name);
+                        }
+                        //shoppingList.GenerateFromRecipe(recip);
+                    }
+                }
+                //CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(new ShoppingList());
+                Console.WriteLine("Lista zakupów:");
+                shoppingList.DisplayProducts();
                 break;
         }
         }
