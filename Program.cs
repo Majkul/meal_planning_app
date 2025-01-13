@@ -167,6 +167,28 @@ public class Program {
         }
         return products;
     }
+    static public void OnShopping(ShoppingList shoppingList, DatabaseConnection<Product> ProductsDatabase){
+        CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(shoppingList);
+        MarkAsAddedDecorator markAsAdded = new MarkAsAddedDecorator(categorizedDisplay);
+        string option="";
+        while(true){
+            markAsAdded.DisplayProducts();
+            Console.WriteLine("Podaj nazwę produktu, który chcesz dodać do koszyka:");
+            Console.WriteLine("0. Wyjdź");
+            option = Console.ReadLine();
+            if(option=="0"){
+                break;
+            }
+            try{
+                Product product = ProductsDatabase.GetRecordByName(option).obj;
+                shoppingList.MarkAsAdded(product);
+                Console.WriteLine($"Dodano produkt: {product.Name}");
+            }
+            catch(System.NullReferenceException){
+                Console.WriteLine("Nie znaleziono produktu.");
+            }
+        }
+    }
     // static public List<Recipe> LoadRecipesFromFile(string filePath) {
     //     List<Recipe> products;
     //     if (File.Exists(filePath)) {
@@ -264,8 +286,6 @@ public class Program {
         }
         //Załaduj produkty i przepisy z historii posiłków
         LoadProductsAndRecipesFromMealsHistory(mealHistory, ProductsDatabase, RecipesDatabase);
-        ProductsDatabase.ShowAllRecords();
-        RecipesDatabase.ShowAllRecords();
         //TODO obliczanie kalorii i makro z całego dnia i wyświetlenie na dole
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >");
@@ -395,13 +415,11 @@ public class Program {
                 break;
 
             case "3":
-                Console.WriteLine("Wybierz zakres dat:");
+                Console.WriteLine("Wybierz zakres dat (format: dd/MM/yyyy, np. 22.01.2025):");
                 Console.Write("Od: ");
-                //DateTime startDate = DateTime.Parse(Console.ReadLine());
-                DateTime startDate = today;
+                DateTime startDate = DateTime.Parse(Console.ReadLine());
                 Console.Write("Do: ");
-                //DateTime endDate = DateTime.Parse(Console.ReadLine());
-                DateTime endDate = today.AddDays(3);
+                DateTime endDate = DateTime.Parse(Console.ReadLine());
                 ShoppingList shoppingList = new ShoppingList();
                 var mealsInRange = mealHistory.History
                     .Where(m => m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
@@ -411,16 +429,17 @@ public class Program {
                 {
                     foreach(var recip in meal.Recipes)
                     {
-                        // foreach(var ingredient in recip.Ingredients.Ingredients)
-                        // {
-                        //     Console.WriteLine(ingredient.Product.Name);
-                        // }
                         shoppingList.GenerateFromRecipe(recip);
                     }
                 }
-                //CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(new ShoppingList());
-                Console.WriteLine("Lista zakupów:");
-                shoppingList.DisplayProducts();
+                CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(shoppingList);
+                categorizedDisplay.DisplayProducts();
+                Console.WriteLine("Czy wyświetlić w trybie dodawania do koszyka? (tak/nie)");
+                string addToCart = Console.ReadLine();
+                if (addToCart.ToLower() == "tak")
+                {
+                    OnShopping(shoppingList, ProductsDatabase);
+                }
                 break;
         }
         }

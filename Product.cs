@@ -19,7 +19,7 @@ public class Product {
         Carbohydrates = carbohydrates;
     }
     public override string ToString() {
-        return $"{Name} ({Category})";
+        return $"{Name}"; //Konieczne aby działało wyszukiwanie w bazie danych po nazwie
     }
 
     public class ProductConverter : JsonConverter<Product>
