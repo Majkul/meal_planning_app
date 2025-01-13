@@ -189,7 +189,6 @@ public class Program {
         string historyFilePath = "mealHistory.json";
         MealHistory mealHistory = new MealHistory();
         mealHistory.LoadFromFile(historyFilePath);
-        today = DateTime.Today;
         List<string?> melas_in_date = GetMealsForDate(mealHistory, today);
         for(int i=0; i<5; i++)
         {
@@ -219,6 +218,7 @@ public class Program {
         } else {
             Console.WriteLine("Brak zapisanej historii. Utworzono nową.");
         }
+        //TODO obliczanie kalorii i makro z całego dnia i wyświetlenie na dole
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >");
         Console.WriteLine("2. Dodaj posiłek");
@@ -237,7 +237,7 @@ public class Program {
                 Console.WriteLine("Czy chcesz skopiować posiłek z innego dnia? (tak/nie)");
                 string copyMeal = Console.ReadLine();
 
-                if (copyMeal.ToLower() == "tak") {
+                if (copyMeal.ToLower() == "tak") { //TODO niech wyświetlają się unikatowe posiłki, w sensie żeby się nie powtarzały przez to że są te same posiłki na różne daty
                     mealHistory.LoadFromFile("mealHistory.json");
                     // Wyświetl historię posiłków
                     if (mealHistory.History.Count == 0) {
@@ -250,11 +250,51 @@ public class Program {
 
                         Console.WriteLine("Podaj numer posiłku, który chcesz skopiować:");
                         int mealIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-
                         if (mealIndex >= 0 && mealIndex < mealHistory.History.Count) {
                             Meal.Meal meal = new Meal.Meal();
                             meal.Restore(mealHistory.Get(mealIndex));
+                            meal.Date = today;
+                            Console.WriteLine($"Czy chcesz dodać posiłek {meal.Name} do dnia {meal.Date.ToString("dd.MM.yyyy")} i pory {meal.Type}? (tak/nie)");
+                            string confirmAddMeal = Console.ReadLine();
+                            if (confirmAddMeal.ToLower() == "tak")
+                            {
+                                mealHistory.Add(meal.Save());
+                                mealHistory.SaveToFile(historyFilePath);
+                                Console.WriteLine($"Skopiowano posiłek: {meal.Name}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("1.Zmiana pory posiłku");
+                                Console.WriteLine("2.Anulowanie dodawania posiłku.");
+                                string confirmAddMeal2 = Console.ReadLine();
+                                if (confirmAddMeal2 == "1")
+                                {
+                                    Console.WriteLine("Podaj typ posiłku (Śniadanie, Drugie śniadanie, Obiad, Podwieczorek, Kolacja):");
+                                    Meal.Meal.MealType mealType;
+                                    while (true)
+                                    {
+                                        string mealTypeInput = Console.ReadLine();
+                                        if (Enum.TryParse(mealTypeInput, true, out mealType))
+                                        {
+                                            meal.Type = mealType;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.");
+                                        }
+                                    }
+                                    mealHistory.Add(meal.Save());
+                                    mealHistory.SaveToFile(historyFilePath);
+                                    Console.WriteLine($"Skopiowano posiłek: {meal.Name}");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Anulowano dodawanie posiłku.");
+                                }
+                            }
                             Console.WriteLine($"Skopiowano posiłek: {meal.Name}");
+
                         } else {
                             Console.WriteLine("Nieprawidłowy numer.");
                         }
@@ -293,16 +333,15 @@ public class Program {
                     string confirmAddMeal = Console.ReadLine();
                     if (confirmAddMeal.ToLower() == "tak")
                     {
-                        // Add the meal to the schedule or database
-                        Console.WriteLine($"Posiłek {newMeal.Name} został dodany do dnia {newMeal.Date.ToString("dd.MM.yyyy")} i pory {newMeal.Type}.");
+                        mealHistory.Add(newMeal.Save());
+                        mealHistory.SaveToFile(historyFilePath);
+                        Console.WriteLine($"Dodano nowy posiłek: {newMeal.Name}");
                     }
                     else
                     {
                         Console.WriteLine("Anulowano dodawanie posiłku.");
                     }
-                    mealHistory.Add(newMeal.Save());
-                    mealHistory.SaveToFile(historyFilePath);
-                    Console.WriteLine($"Dodano nowy posiłek: {newMeal.Name}");
+                    
                 }
                 break;
 
