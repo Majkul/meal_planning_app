@@ -1,41 +1,108 @@
-using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace RecipeNamespace{
-    public class IngredientList {
-    public Dictionary<Product, double> Ingredients = new Dictionary<Product, double>();
+    public class IngredientList
+{
+    public List<Ingredient> Ingredients { get; set; }
 
-    public void Add(Product product, double amount) {
-        Ingredients.Add(product, amount);
+    public IngredientList()
+    {
+        Ingredients = new List<Ingredient>();
     }
 
-    public void Remove(Product product) {
-        Ingredients.Remove(product);
+    public void Add(Product product, double amount)
+    {
+        Ingredients.Add(new Ingredient(product, amount));
     }
 
-    public double GetTotalProtein() {
+    public void Remove(Product product)
+    {
+        Ingredients.RemoveAll(i => i.Product == product);
+    }
+
+    public double GetTotalProtein()
+    {
         double totalProtein = 0;
-        foreach (var ingredient in Ingredients) {
-            totalProtein += ingredient.Key.Protein * ingredient.Value;
+        foreach (var ingredient in Ingredients)
+        {
+            totalProtein += ingredient.Product.Protein * ingredient.Amount;
         }
         return totalProtein;
     }
 
-    public double GetTotalFat() {
+    public double GetTotalFat()
+    {
         double totalFat = 0;
-        foreach (var ingredient in Ingredients) {
-            totalFat += ingredient.Key.Fat * ingredient.Value;
+        foreach (var ingredient in Ingredients)
+        {
+            totalFat += ingredient.Product.Fat * ingredient.Amount;
         }
         return totalFat;
     }
 
-    public double GetTotalCarbohydrates() {
+    public double GetTotalCarbohydrates()
+    {
         double totalCarbohydrates = 0;
-        foreach (var ingredient in Ingredients) {
-            totalCarbohydrates += ingredient.Key.Carbohydrates * ingredient.Value;
+        foreach (var ingredient in Ingredients)
+        {
+            totalCarbohydrates += ingredient.Product.Carbohydrates * ingredient.Amount;
         }
         return totalCarbohydrates;
     }
 }
 
+    public class Ingredient
+    {
+        public Product Product { get; set; }
+        public double Amount { get; set; }
+
+        public Ingredient(Product product, double amount)
+        {
+            Product = product;
+            Amount = amount;
+        }
+    }
+
+public class IngredientListConverter : JsonConverter<IngredientList>
+{
+    public override IngredientList Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var ingredientList = new IngredientList();
+
+        using (JsonDocument doc = JsonDocument.ParseValue(ref reader))
+        {
+            var ingredientsArray = doc.RootElement.EnumerateArray();
+            
+            foreach (var ingredientElement in ingredientsArray)
+            {
+                var productJson = ingredientElement.GetProperty("Product");
+                var product = JsonSerializer.Deserialize<Product>(productJson.GetRawText(), options);
+                var amount = ingredientElement.GetProperty("Amount").GetDouble();
+                
+                ingredientList.Add(product, amount);
+            }
+        }
+
+        return ingredientList;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IngredientList value, JsonSerializerOptions options)
+    {
+        writer.WriteStartArray();
+        
+        foreach (var ingredient in value.Ingredients)
+        {
+            writer.WriteStartObject();
+            writer.WriteStartObject();
+            JsonSerializer.Serialize(writer, ingredient.Product, options);
+            writer.WriteEndObject();
+            writer.WriteNumber("Amount", ingredient.Amount);
+            writer.WriteEndObject();
+        }
+        
+        writer.WriteEndArray();
+    }
+}
 public class Recipe {
     public string Name { get; set; }
     public IngredientList Ingredients { get; set; }
@@ -51,24 +118,24 @@ public class Recipe {
         Instructions = new List<string>();
     }
 
-    public override string ToString() {
-        var sb = new StringBuilder();
-        sb.AppendLine($"- {Name} -");
-        sb.AppendLine("Ingredients:");
-        foreach (var ingredient in Ingredients.Ingredients) {
-            sb.AppendLine($"{ingredient.Key.Name}: {ingredient.Value} {ingredient.Key.Unit.ToString().ToLower()}");
-        }
-        sb.AppendLine("Instructions:");
-        for (int i = 0; i < Instructions.Count; i++) {
-            sb.AppendLine($"{i + 1}. {Instructions[i]}");
-        }
-        sb.AppendLine($"Total Time: {TotalTime}");
-        sb.AppendLine($"Calories: {Calories}");
-        sb.AppendLine($"Protein: {Protein}");
-        sb.AppendLine($"Fat: {Fat}");
-        sb.AppendLine($"Carbohydrates: {Carbohydrates}");
-        return sb.ToString();
-    }
+    // public override string ToString() {
+    //     var sb = new StringBuilder();
+    //     sb.AppendLine($"- {Name} -");
+    //     sb.AppendLine("Ingredients:");
+    //     // foreach (var ingredient in Ingredients.Ingredients) {
+    //     //     sb.AppendLine($"{ingredient.Key.Name}: {ingredient.Value} {ingredient.Key.Unit.ToString().ToLower()}");
+    //     // }
+    //     sb.AppendLine("Instructions:");
+    //     for (int i = 0; i < Instructions.Count; i++) {
+    //         sb.AppendLine($"{i + 1}. {Instructions[i]}");
+    //     }
+    //     sb.AppendLine($"Total Time: {TotalTime}");
+    //     sb.AppendLine($"Calories: {Calories}");
+    //     sb.AppendLine($"Protein: {Protein}");
+    //     sb.AppendLine($"Fat: {Fat}");
+    //     sb.AppendLine($"Carbohydrates: {Carbohydrates}");
+    //     return sb.ToString();
+    // }
 }
 
 public class RecipeBuilder {

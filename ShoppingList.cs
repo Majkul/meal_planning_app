@@ -44,8 +44,7 @@ public class ShoppingList : IShoppingList
     {
         foreach (var ingredient in recipe.Ingredients.Ingredients)
         {
-            Console.WriteLine("lol");
-            AddProduct(ingredient.Key, (int)ingredient.Value);
+            AddProduct(ingredient.Product, (int)ingredient.Amount);
         }
     }
     public void RemoveProduct(Product product)

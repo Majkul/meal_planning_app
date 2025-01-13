@@ -89,7 +89,7 @@ public class DatabaseConnection<T> : IDatabaseConnection<T> {
     public int AddRecord(T obj) {
         Record<T> newRecord = new(db.nextId++, obj);
         db.records.Add(newRecord);
-        Console.WriteLine($"Inserted: {newRecord}");
+        //Console.WriteLine($"Inserted: {newRecord}");
         return db.nextId - 1; // Zwracamy id dodanego rekordu
     }
 

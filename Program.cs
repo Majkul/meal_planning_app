@@ -80,22 +80,22 @@ public class Program {
                     break;
 
                 case "2": // Usuwanie składnika
-                    Console.WriteLine("Podaj nazwę składnika do usunięcia:");
-                    string removeProductName = Console.ReadLine();
+                    // Console.WriteLine("Podaj nazwę składnika do usunięcia:");
+                    // string removeProductName = Console.ReadLine();
 
-                    Product removeProduct = recipeBuilder.Build().Ingredients.Ingredients
-                        .Keys.FirstOrDefault(p => p.Name == removeProductName);
+                    // Product removeProduct = recipeBuilder.Build().Ingredients.Ingredients
+                    //     .Keys.FirstOrDefault(p => p.Name == removeProductName);
 
-                    if (removeProduct != null)
-                    {
-                        ICommand removeIngredientCommand = new AddIngredientCommand(recipeBuilder, removeProduct, 0);
-                        commandManager.ExecuteCommand(removeIngredientCommand);
-                        Console.WriteLine("Usunięto składnik.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Nie znaleziono składnika.");
-                    }
+                    // if (removeProduct != null)
+                    // {
+                    //     ICommand removeIngredientCommand = new AddIngredientCommand(recipeBuilder, removeProduct, 0);
+                    //     commandManager.ExecuteCommand(removeIngredientCommand);
+                    //     Console.WriteLine("Usunięto składnik.");
+                    // }
+                    // else
+                    // {
+                    //     Console.WriteLine("Nie znaleziono składnika.");
+                    // }
                     break;
 
                 case "3": // Dodawanie kroku instrukcji
@@ -146,6 +146,16 @@ public class Program {
 
         return mealsForDate;
     }
+    static void LoadProductsAndRecipesFromMealsHistory(MealHistory mealHistory, DatabaseConnection<Product> ProductsDatabase, DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase) {
+        foreach (var meal in mealHistory.History) {
+            foreach (var recipe in meal.Recipes) {
+                foreach (var ingredient in recipe.Ingredients.Ingredients) {
+                    ProductsDatabase.AddRecord(ingredient.Product);
+                }
+                RecipesDatabase.AddRecord(recipe);
+            }
+        }
+    }
     static public List<Product> LoadProductsFromFile(string filePath) {
         List<Product> products;
         if (File.Exists(filePath)) {
@@ -157,17 +167,17 @@ public class Program {
         }
         return products;
     }
-    static public List<Recipe> LoadRecipesFromFile(string filePath) {
-        List<Recipe> products;
-        if (File.Exists(filePath)) {
-            var json = File.ReadAllText(filePath);
-            // Deserializacja JSON do listy produktów
-            products = JsonSerializer.Deserialize<List<Recipe>>(json);
-        } else {
-            products = new List<Recipe>();
-        }
-        return products;
-    }
+    // static public List<Recipe> LoadRecipesFromFile(string filePath) {
+    //     List<Recipe> products;
+    //     if (File.Exists(filePath)) {
+    //         var json = File.ReadAllText(filePath);
+    //         // Deserializacja JSON do listy produktów
+    //         products = JsonSerializer.Deserialize<List<Recipe>>(json);
+    //     } else {
+    //         products = new List<Recipe>();
+    //     }
+    //     return products;
+    // }
     public static void Main()
     {
         //Tworzenie interfejsu
@@ -221,7 +231,7 @@ public class Program {
 
             Meal.Meal.MealType mealType = (Meal.Meal.MealType)Array.IndexOf(meals, meals[i]);
             string mealName = melas_in_date[i] ?? "Brak posiłku";
-
+            
             Console.Write("|");
             Console.Write(mealName.PadLeft((111 - mealName.Length) / 2 + mealName.Length).PadRight(111));
             Console.WriteLine("|");
@@ -232,18 +242,18 @@ public class Program {
         var ProductsDatabase = ConnectionManager.getInstance().getConnection<Product>("Products");
 
         //Tutaj będzie odczytywanie do bazy danych z plików jakichś przykąłdowych rekodrów
-        List<Product> productsList = LoadProductsFromFile("products.json");
-        foreach (var product in productsList)
-        {
-            ProductsDatabase.AddRecord(product);
-        }
+        // List<Product> productsList = LoadProductsFromFile("products.json");
+        // foreach (var product in productsList)
+        // {
+        //     ProductsDatabase.AddRecord(product);
+        // }
 
-        List<Recipe> recipesList = LoadRecipesFromFile("recipes.json");
-        foreach (var recipe in recipesList)
-        {
+        // List<Recipe> recipesList = LoadRecipesFromFile("recipes.json");
+        // foreach (var recipe in recipesList)
+        // {
 
-            Console.WriteLine(recipe);
-        }
+        //     Console.WriteLine(recipe);
+        // }
         
         // Załaduj historię z pliku, jeśli istnieje
         if (File.Exists(historyFilePath)) {
@@ -252,6 +262,10 @@ public class Program {
         } else {
             Console.WriteLine("Brak zapisanej historii. Utworzono nową.");
         }
+        //Załaduj produkty i przepisy z historii posiłków
+        LoadProductsAndRecipesFromMealsHistory(mealHistory, ProductsDatabase, RecipesDatabase);
+        ProductsDatabase.ShowAllRecords();
+        RecipesDatabase.ShowAllRecords();
         //TODO obliczanie kalorii i makro z całego dnia i wyświetlenie na dole
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >");
@@ -397,11 +411,11 @@ public class Program {
                 {
                     foreach(var recip in meal.Recipes)
                     {
-                        foreach(var ingredient in recip.Ingredients.Ingredients)
-                        {
-                            Console.WriteLine(ingredient.Key.Name);
-                        }
-                        //shoppingList.GenerateFromRecipe(recip);
+                        // foreach(var ingredient in recip.Ingredients.Ingredients)
+                        // {
+                        //     Console.WriteLine(ingredient.Product.Name);
+                        // }
+                        shoppingList.GenerateFromRecipe(recip);
                     }
                 }
                 //CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(new ShoppingList());

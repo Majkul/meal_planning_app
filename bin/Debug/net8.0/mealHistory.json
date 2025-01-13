@@ -1,1 +1,172 @@
-[{"Name":"Owsianka","Date":"2025-01-13T00:00:00+01:00","Type":0,"Recipes":[{"Name":"Owsianka","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":300,"Protein":10,"Fat":5,"Carbohydrates":50}]},{"Name":"Jajecznica","Date":"2025-01-13T00:00:00+01:00","Type":1,"Recipes":[{"Name":"Jajecznica","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":200,"Protein":15,"Fat":15,"Carbohydrates":1}]},{"Name":"Sa\u0142atka z kurczakiem","Date":"2025-01-13T00:00:00+01:00","Type":2,"Recipes":[{"Name":"Sa\u0142atka z kurczakiem","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":400,"Protein":30,"Fat":20,"Carbohydrates":10}]},{"Name":"Makaron z sosem pomidorowym","Date":"2025-01-13T00:00:00+01:00","Type":3,"Recipes":[{"Name":"Makaron z sosem pomidorowym","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":500,"Protein":15,"Fat":10,"Carbohydrates":80}]},{"Name":"Owsianka","Date":"2025-01-14T00:00:00+01:00","Type":0,"Recipes":[{"Name":"Owsianka","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":300,"Protein":10,"Fat":5,"Carbohydrates":50}]},{"Name":"Jajecznica","Date":"2025-01-14T00:00:00+01:00","Type":1,"Recipes":[{"Name":"Jajecznica","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":200,"Protein":15,"Fat":15,"Carbohydrates":1}]},{"Name":"Sa\u0142atka z kurczakiem","Date":"2025-01-14T00:00:00+01:00","Type":2,"Recipes":[{"Name":"Sa\u0142atka z kurczakiem","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":400,"Protein":30,"Fat":20,"Carbohydrates":10}]},{"Name":"Makaron z sosem pomidorowym","Date":"2025-01-14T00:00:00+01:00","Type":3,"Recipes":[{"Name":"Makaron z sosem pomidorowym","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":500,"Protein":15,"Fat":10,"Carbohydrates":80}]},{"Name":"Owsianka","Date":"2025-01-15T00:00:00+01:00","Type":0,"Recipes":[{"Name":"Owsianka","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":300,"Protein":10,"Fat":5,"Carbohydrates":50}]},{"Name":"Jajecznica","Date":"2025-01-15T00:00:00+01:00","Type":1,"Recipes":[{"Name":"Jajecznica","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":200,"Protein":15,"Fat":15,"Carbohydrates":1}]},{"Name":"Sa\u0142atka z kurczakiem","Date":"2025-01-15T00:00:00+01:00","Type":2,"Recipes":[{"Name":"Sa\u0142atka z kurczakiem","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":400,"Protein":30,"Fat":20,"Carbohydrates":10}]},{"Name":"Makaron z sosem pomidorowym","Date":"2025-01-15T00:00:00+01:00","Type":3,"Recipes":[{"Name":"Makaron z sosem pomidorowym","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":500,"Protein":15,"Fat":10,"Carbohydrates":80}]},{"Name":"Pizza","Date":"2025-01-13T00:00:00+01:00","Type":0,"Recipes":[{"Name":"Pizza","Ingredients":{},"Instructions":[],"TotalTime":"00:00:00","Calories":17000,"Protein":1000,"Fat":1000,"Carbohydrates":1000}]}]
+[
+    {
+        "Name": "Pancakes",
+        "Date": "2025-01-13T08:00:00",
+        "Type": 0,
+        "Recipes": [
+            {
+                "Name": "Pancakes",
+                "Ingredients": [
+                    {
+                        "Product": {
+                            "Name": "Flour",
+                            "Category": "Grain",
+                            "Unit": "Grams",
+                            "Protein": 10,
+                            "Fat": 1,
+                            "Carbohydrates": 75
+                        },
+                        "Amount": 200
+                    },
+                    {
+                        "Product": {
+                            "Name": "Eggs",
+                            "Category": "Other",
+                            "Unit": "Units",
+                            "Protein": 6,
+                            "Fat": 5,
+                            "Carbohydrates": 1
+                        },
+                        "Amount": 2
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Name": "Fruit Salad",
+        "Date": "2025-01-13T09:00:00",
+        "Type": 1,
+        "Recipes": [
+            {
+                "Name": "Fruit Salad",
+                "Ingredients": [
+                    {
+                        "Product": {
+                            "Name": "Apple",
+                            "Category": "Fruit",
+                            "Unit": "Units",
+                            "Protein": 0.3,
+                            "Fat": 0.2,
+                            "Carbohydrates": 14
+                        },
+                        "Amount": 1
+                    },
+                    {
+                        "Product": {
+                            "Name": "Banana",
+                            "Category": "Fruit",
+                            "Unit": "Units",
+                            "Protein": 1.3,
+                            "Fat": 0.3,
+                            "Carbohydrates": 27
+                        },
+                        "Amount": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Name": "Chicken Salad",
+        "Date": "2025-01-13T12:00:00",
+        "Type": 3,
+        "Recipes": [
+            {
+                "Name": "Chicken Salad",
+                "Ingredients": [
+                    {
+                        "Product": {
+                            "Name": "Chicken Breast",
+                            "Category": "Meat",
+                            "Unit": "Grams",
+                            "Protein": 31,
+                            "Fat": 3.6,
+                            "Carbohydrates": 0
+                        },
+                        "Amount": 150
+                    },
+                    {
+                        "Product": {
+                            "Name": "Lettuce",
+                            "Category": "Vegetable",
+                            "Unit": "Grams",
+                            "Protein": 1.4,
+                            "Fat": 0.2,
+                            "Carbohydrates": 2.9
+                        },
+                        "Amount": 50
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Name": "Spaghetti Bolognese",
+        "Date": "2025-01-13T18:00:00",
+        "Type": 3,
+        "Recipes": [
+            {
+                "Name": "Spaghetti Bolognese",
+                "Ingredients": [
+                    {
+                        "Product": {
+                            "Name": "Spaghetti",
+                            "Category": "Grain",
+                            "Unit": "Grams",
+                            "Protein": 5,
+                            "Fat": 1,
+                            "Carbohydrates": 75
+                        },
+                        "Amount": 200
+                    },
+                    {
+                        "Product": {
+                            "Name": "Ground Beef",
+                            "Category": "Meat",
+                            "Unit": "Grams",
+                            "Protein": 26,
+                            "Fat": 20,
+                            "Carbohydrates": 0
+                        },
+                        "Amount": 150
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Name": "Chocolate Cake",
+        "Date": "2025-01-14T20:00:00",
+        "Type": 0,
+        "Recipes": [
+            {
+                "Name": "Chocolate Cake",
+                "Ingredients": [
+                    {
+                        "Product": {
+                            "Name": "Flour",
+                            "Category": "Grain",
+                            "Unit": "Grams",
+                            "Protein": 10,
+                            "Fat": 1,
+                            "Carbohydrates": 75
+                        },
+                        "Amount": 200
+                    },
+                    {
+                        "Product": {
+                            "Name": "Cocoa Powder",
+                            "Category": "Other",
+                            "Unit": "Grams",
+                            "Protein": 19.6,
+                            "Fat": 13.7,
+                            "Carbohydrates": 57.9
+                        },
+                        "Amount": 50
+                    }
+                ]
+            }
+        ]
+    }
+]

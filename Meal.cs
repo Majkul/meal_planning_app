@@ -68,18 +68,35 @@ class MealHistory {
         }
     }
 
-    public void SaveToFile(string filePath) {
-        var json = JsonSerializer.Serialize(History);
+    public void SaveToFile(string filePath)
+    {
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new Product.ProductConverter() }  // Dodanie konwertera dla Product
+        };
+        var json = JsonSerializer.Serialize(History, options);
         File.WriteAllText(filePath, json);
     }
 
-    public void LoadFromFile(string filePath) {
-        if (File.Exists(filePath)) {
-            var json = File.ReadAllText(filePath);
-            History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json);
-        } else {
-            History = new List<Meal.MealMemento>();
-        }
+    public void LoadFromFile(string filePath)
+{
+    if (File.Exists(filePath))
+    {
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new Product.ProductConverter(), new RecipeNamespace.IngredientListConverter() }
+        };
+
+        var json = File.ReadAllText(filePath);
+
+        // Deserializacja do listy MealMemento
+        History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json, options);
     }
+    else
+    {
+        History = new List<Meal.MealMemento>();
+    }
+}
 }
 }
