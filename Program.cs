@@ -129,6 +129,22 @@ public class Program {
             }
         }
     }
+    static List<string?> GetMealsForDate(MealHistory mealHistory, DateTime date) {
+        // Inicjalizuj listę wyników (5 pozycji, jedna na każdy rodzaj posiłku)
+        List<string?> mealsForDate = new List<string?> { null, null, null, null, null };
+
+        // Filtrowanie posiłków z historii dla podanej daty
+        var mealsOnDate = mealHistory.History
+            .Where(m => m.Date.Date == date)
+            .ToList();
+
+        // Przypisywanie nazw posiłków do odpowiednich indeksów w liście wyników
+        foreach (var meal in mealsOnDate) {
+            mealsForDate[(int)meal.Type] = meal.Name; // Typ posiłku (enum) jako indeks
+        }
+
+        return mealsForDate;
+    }
     public static void Main()
     {
         //Tworzenie interfejsu
@@ -167,21 +183,26 @@ public class Program {
         Console.WriteLine("|");
 
         Console.WriteLine(new string('-', 113));
-        string[] meals = { "Śniadanie", "Drugie śniadanie", "Obiad", "Podwieczorek", "Kolacja" };
+        string[] meals = {"Śniadanie", "Drugie śniadanie", "Obiad", "Podwieczorek", "Kolacja"};
 
-        foreach (string meal in meals)
+        //Historia posiłków
+        string historyFilePath = "mealHistory.json";
+        MealHistory mealHistory = new MealHistory();
+        mealHistory.LoadFromFile(historyFilePath);
+        today = DateTime.Today;
+        List<string?> melas_in_date = GetMealsForDate(mealHistory, today);
+        for(int i=0; i<5; i++)
         {
             Console.Write("|");
-            Console.Write(meal.PadLeft((111 - meal.Length) / 2 + meal.Length).PadRight(111));
+            Console.Write(meals[i].PadLeft((111 - meals[i].Length) / 2 + meals[i].Length).PadRight(111));
             Console.WriteLine("|");
-            Console.WriteLine(new string('-', 113));
 
-            for (int i = 0; i < 1; i++)
-            {
-                Console.Write("|");
-                Console.Write(new string(' ', 111));
-                Console.WriteLine("|");
-            }
+            Meal.Meal.MealType mealType = (Meal.Meal.MealType)Array.IndexOf(meals, meals[i]);
+            string mealName = melas_in_date[i] ?? "Brak posiłku";
+
+            Console.Write("|");
+            Console.Write(mealName.PadLeft((111 - mealName.Length) / 2 + mealName.Length).PadRight(111));
+            Console.WriteLine("|");
             Console.WriteLine(new string('-', 113));
         }
         //Bazy danychy
@@ -190,9 +211,6 @@ public class Program {
         //Tutaj będzie odczytywanie do bazy danych z plików jakichś przykąłdowych rekodrów
 
 
-        //Historia posiłków
-        string historyFilePath = "mealHistory.json";
-        MealHistory mealHistory = new MealHistory();
 
         // Załaduj historię z pliku, jeśli istnieje
         if (File.Exists(historyFilePath)) {
@@ -201,7 +219,6 @@ public class Program {
         } else {
             Console.WriteLine("Brak zapisanej historii. Utworzono nową.");
         }
-
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >");
         Console.WriteLine("2. Dodaj posiłek");
@@ -256,7 +273,33 @@ public class Program {
                         var test = RecipesDatabase.GetLastRecord();
                         newMeal.Recipes.Add(test);
                     }
-
+                    Console.WriteLine("Podaj typ posiłku (Śniadanie, Drugie śniadanie, Obiad, Podwieczorek, Kolacja):");
+                    Meal.Meal.MealType mealType;
+                    while (true)
+                    {
+                        string mealTypeInput = Console.ReadLine();
+                        if (Enum.TryParse(mealTypeInput, true, out mealType))
+                        {
+                            newMeal.Type = mealType;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.");
+                        }
+                    }
+                    newMeal.Date = today;
+                    Console.WriteLine($"Czy chcesz dodać posiłek {newMeal.Name} do dnia {newMeal.Date.ToString("dd.MM.yyyy")} i pory {newMeal.Type}? (tak/nie)");
+                    string confirmAddMeal = Console.ReadLine();
+                    if (confirmAddMeal.ToLower() == "tak")
+                    {
+                        // Add the meal to the schedule or database
+                        Console.WriteLine($"Posiłek {newMeal.Name} został dodany do dnia {newMeal.Date.ToString("dd.MM.yyyy")} i pory {newMeal.Type}.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Anulowano dodawanie posiłku.");
+                    }
                     mealHistory.Add(newMeal.Save());
                     mealHistory.SaveToFile(historyFilePath);
                     Console.WriteLine($"Dodano nowy posiłek: {newMeal.Name}");

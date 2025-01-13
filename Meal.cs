@@ -3,30 +3,38 @@ using RecipeNamespace;
 namespace Meal{
 class Meal {
     public string Name { get; set; }
+    public DateTime Date { get; set; }
+    public MealType Type { get; set; }
+    public List<Recipe> Recipes { get; set; }
     public enum MealType {
         Breakfast,
         Lunch,
         Dinner,
         Dessert
     }
-    public List<Recipe> Recipes { get; set; }
     public Meal(){
         Recipes = new List<Recipe>();
     }
     public class MealMemento {
         public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public MealType Type { get; set; }
         public List<Recipe> Recipes { get; set; }
     }
 
     public MealMemento Save() {
         return new MealMemento {
             Name = Name,
+            Date = Date,
+            Type = Type,
             Recipes = Recipes
-        };
+    };
     }
 
     public void Restore(MealMemento memento) {
         Name = memento.Name;
+        Date = memento.Date;
+        Type = memento.Type;
         Recipes = memento.Recipes;
     }
 }
