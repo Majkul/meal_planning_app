@@ -158,7 +158,7 @@ public class CategorizedDisplayDecorator : ShoppingListDecorator
 public class MarkAsAddedDecorator : ShoppingListDecorator
 {
     public MarkAsAddedDecorator(IShoppingList shoppingList) : base(shoppingList) { }
-
+    
     public override void MarkAsAdded(Product product)
     {
         base.MarkAsAdded(product);

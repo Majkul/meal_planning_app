@@ -1,87 +1,42 @@
 [
-    {
-      "Name": "Fruit Salad",
-      "Ingredients": [
-        { "Product": "Apple", "Amount": 1 },
-        { "Product": "Banana", "Amount": 2 },
-        { "Product": "Orange", "Amount": 1 }
-      ],
-      "Instructions": [
-        "Peel and chop the apple, banana, and orange.",
-        "Mix all the fruits in a bowl.",
-        "Serve fresh and enjoy."
-      ],
-      "TotalTime": "00:10:00",
-      "Calories": 120,
-      "Protein": 1.6,
-      "Fat": 0.6,
-      "Carbohydrates": 32.0
-    },
-    {
-      "Name": "Chicken Stir Fry",
-      "Ingredients": [
-        { "Product": "Chicken Breast", "Amount": 300 },
-        { "Product": "Broccoli", "Amount": 150 },
-        { "Product": "Carrot", "Amount": 100 },
-        { "Product": "Soy Sauce", "Amount": 2 }
-      ],
-      "Instructions": [
-        "Cut the chicken breast into strips.",
-        "Stir-fry the chicken until browned.",
-        "Add the broccoli and carrot, stir-fry for another 5 minutes.",
-        "Add soy sauce and cook for 2 more minutes.",
-        "Serve hot."
-      ],
-      "TotalTime": "00:25:00",
-      "Calories": 350,
-      "Protein": 35.0,
-      "Fat": 9.0,
-      "Carbohydrates": 15.0
-    },
-    {
-      "Name": "Vegetable Soup",
-      "Ingredients": [
-        { "Product": "Carrot", "Amount": 150 },
-        { "Product": "Broccoli", "Amount": 200 },
-        { "Product": "Spinach", "Amount": 50 },
-        { "Product": "Onion", "Amount": 1 },
-        { "Product": "Garlic", "Amount": 2 }
-      ],
-      "Instructions": [
-        "Chop the carrots, broccoli, onion, and garlic.",
-        "In a pot, sauté the onion and garlic until soft.",
-        "Add the carrots and broccoli, cook for 10 minutes.",
-        "Add water and bring to a boil.",
-        "Add spinach and cook for another 5 minutes.",
-        "Serve hot."
-      ],
-      "TotalTime": "00:30:00",
-      "Calories": 180,
-      "Protein": 4.0,
-      "Fat": 2.0,
-      "Carbohydrates": 35.0
-    },
-    {
-      "Name": "Beef Stew",
-      "Ingredients": [
-        { "Product": "Beef Steak", "Amount": 500 },
-        { "Product": "Carrot", "Amount": 200 },
-        { "Product": "Onion", "Amount": 1 },
-        { "Product": "Garlic", "Amount": 3 },
-        { "Product": "Potato", "Amount": 300 }
-      ],
-      "Instructions": [
-        "Cut the beef into chunks.",
-        "Sauté the beef, onion, and garlic in a pot.",
-        "Add the carrots and potatoes, cook for 5 minutes.",
-        "Add water and simmer for 1 hour until beef is tender.",
-        "Serve hot."
-      ],
-      "TotalTime": "01:30:00",
-      "Calories": 600,
-      "Protein": 40.0,
-      "Fat": 25.0,
-      "Carbohydrates": 45.0
-    }
-  ]
-  
+  {
+    "Name": "Chocolate Cake",
+    "Ingredients": [
+        {
+            "Product": {
+                "Name": "Flour",
+                "Category": "Grain",
+                "Unit": "Grams",
+                "Protein": 10,
+                "Fat": 1,
+                "Carbohydrates": 75
+            },
+            "Amount": 200
+        },
+        {
+            "Product": {
+                "Name": "Cocoa Powder",
+                "Category": "Other",
+                "Unit": "Grams",
+                "Protein": 19.6,
+                "Fat": 13.7,
+                "Carbohydrates": 57.9
+            },
+            "Amount": 50
+        }
+    ],
+    "Instructions": [
+        "Preheat the oven to 180°C (350°F).",
+        "Mix the flour and cocoa powder together.",
+        "Add the remaining ingredients and mix well.",
+        "Pour the batter into a greased cake pan.",
+        "Bake for 30-35 minutes or until a toothpick inserted into the center comes out clean.",
+        "Let the cake cool before serving."
+    ],
+    "TotalTime": "01:00:00",
+    "Calories": 450,
+    "Protein": 29.6,
+    "Fat": 14.7,
+    "Carbohydrates": 132.9
+  }
+]

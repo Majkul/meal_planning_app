@@ -1,18 +1,162 @@
 [
-    {
+  {
       "Name": "Apple",
       "Category": 0,
       "Unit": 0,
       "Protein": 0.3,
       "Fat": 0.2,
       "Carbohydrates": 25.0
-    },
-    {
+  },
+  {
       "Name": "Banana",
       "Category": 0,
       "Unit": 0,
       "Protein": 1.1,
       "Fat": 0.3,
       "Carbohydrates": 27.0
-    }
-  ]
+  },
+  {
+      "Name": "Carrot",
+      "Category": 1,
+      "Unit": 0,
+      "Protein": 0.9,
+      "Fat": 0.2,
+      "Carbohydrates": 10.0
+  },
+  {
+      "Name": "Chicken Breast",
+      "Category": 2,
+      "Unit": 0,
+      "Protein": 31.0,
+      "Fat": 3.6,
+      "Carbohydrates": 0.0
+  },
+  {
+      "Name": "Milk",
+      "Category": 3,
+      "Unit": 1,
+      "Protein": 3.4,
+      "Fat": 1.0,
+      "Carbohydrates": 5.0
+  },
+  {
+      "Name": "Bread",
+      "Category": 4,
+      "Unit": 0,
+      "Protein": 8.0,
+      "Fat": 1.0,
+      "Carbohydrates": 49.0
+  },
+  {
+      "Name": "Orange",
+      "Category": 0,
+      "Unit": 0,
+      "Protein": 0.9,
+      "Fat": 0.1,
+      "Carbohydrates": 12.0
+  },
+  {
+      "Name": "Broccoli",
+      "Category": 1,
+      "Unit": 0,
+      "Protein": 2.8,
+      "Fat": 0.4,
+      "Carbohydrates": 7.0
+  },
+  {
+      "Name": "Beef",
+      "Category": 2,
+      "Unit": 0,
+      "Protein": 26.0,
+      "Fat": 15.0,
+      "Carbohydrates": 0.0
+  },
+  {
+      "Name": "Cheese",
+      "Category": 3,
+      "Unit": 0,
+      "Protein": 25.0,
+      "Fat": 33.0,
+      "Carbohydrates": 1.3
+  },
+  {
+      "Name": "Rice",
+      "Category": 4,
+      "Unit": 0,
+      "Protein": 2.7,
+      "Fat": 0.3,
+      "Carbohydrates": 28.0
+  },
+  {
+      "Name": "Strawberry",
+      "Category": 0,
+      "Unit": 0,
+      "Protein": 0.8,
+      "Fat": 0.3,
+      "Carbohydrates": 8.0
+  },
+  {
+      "Name": "Spinach",
+      "Category": 1,
+      "Unit": 0,
+      "Protein": 2.9,
+      "Fat": 0.4,
+      "Carbohydrates": 3.6
+  },
+  {
+      "Name": "Pork",
+      "Category": 2,
+      "Unit": 0,
+      "Protein": 21.0,
+      "Fat": 14.0,
+      "Carbohydrates": 0.0
+  },
+  {
+      "Name": "Yogurt",
+      "Category": 3,
+      "Unit": 1,
+      "Protein": 4.0,
+      "Fat": 3.3,
+      "Carbohydrates": 6.0
+  },
+  {
+      "Name": "Oats",
+      "Category": 4,
+      "Unit": 0,
+      "Protein": 16.9,
+      "Fat": 6.9,
+      "Carbohydrates": 66.3
+  },
+  {
+      "Name": "Grapes",
+      "Category": 0,
+      "Unit": 0,
+      "Protein": 0.6,
+      "Fat": 0.2,
+      "Carbohydrates": 17.0
+  },
+  {
+      "Name": "Cucumber",
+      "Category": 1,
+      "Unit": 0,
+      "Protein": 0.7,
+      "Fat": 0.1,
+      "Carbohydrates": 3.6
+  },
+  {
+      "Name": "Turkey",
+      "Category": 2,
+      "Unit": 0,
+      "Protein": 29.0,
+      "Fat": 1.0,
+      "Carbohydrates": 0.0
+  },
+  {
+      "Name": "Butter",
+      "Category": 3,
+      "Unit": 0,
+      "Protein": 0.9,
+      "Fat": 81.0,
+      "Carbohydrates": 0.1
+  }
+]

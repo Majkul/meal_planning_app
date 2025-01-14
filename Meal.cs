@@ -8,9 +8,10 @@ class Meal {
     public List<Recipe> Recipes { get; set; }
     public enum MealType {
         Breakfast,
+        SnackI,
         Lunch,
-        Dinner,
-        Dessert
+        SnackII,
+        Dinner
     }
     public Meal(){
         Recipes = new List<Recipe>();
@@ -73,11 +74,14 @@ class MealHistory {
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
-            Converters = { new Product.ProductConverter() }  // Dodanie konwertera dla Product
+            Converters = { new Product.ProductConverter(), new RecipeNamespace.IngredientListConverter() }
         };
+
         var json = JsonSerializer.Serialize(History, options);
+
         File.WriteAllText(filePath, json);
     }
+
 
     public void LoadFromFile(string filePath)
 {
@@ -90,7 +94,6 @@ class MealHistory {
 
         var json = File.ReadAllText(filePath);
 
-        // Deserializacja do listy MealMemento
         History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json, options);
     }
     else

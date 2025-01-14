@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace RecipeNamespace{
@@ -89,17 +90,14 @@ public class IngredientListConverter : JsonConverter<IngredientList>
     public override void Write(Utf8JsonWriter writer, IngredientList value, JsonSerializerOptions options)
     {
         writer.WriteStartArray();
-        
         foreach (var ingredient in value.Ingredients)
         {
             writer.WriteStartObject();
-            writer.WriteStartObject();
+            writer.WritePropertyName("Product");
             JsonSerializer.Serialize(writer, ingredient.Product, options);
-            writer.WriteEndObject();
             writer.WriteNumber("Amount", ingredient.Amount);
             writer.WriteEndObject();
         }
-        
         writer.WriteEndArray();
     }
 }
@@ -118,24 +116,24 @@ public class Recipe {
         Instructions = new List<string>();
     }
 
-    // public override string ToString() {
-    //     var sb = new StringBuilder();
-    //     sb.AppendLine($"- {Name} -");
-    //     sb.AppendLine("Ingredients:");
-    //     // foreach (var ingredient in Ingredients.Ingredients) {
-    //     //     sb.AppendLine($"{ingredient.Key.Name}: {ingredient.Value} {ingredient.Key.Unit.ToString().ToLower()}");
-    //     // }
-    //     sb.AppendLine("Instructions:");
-    //     for (int i = 0; i < Instructions.Count; i++) {
-    //         sb.AppendLine($"{i + 1}. {Instructions[i]}");
-    //     }
-    //     sb.AppendLine($"Total Time: {TotalTime}");
-    //     sb.AppendLine($"Calories: {Calories}");
-    //     sb.AppendLine($"Protein: {Protein}");
-    //     sb.AppendLine($"Fat: {Fat}");
-    //     sb.AppendLine($"Carbohydrates: {Carbohydrates}");
-    //     return sb.ToString();
-    // }
+    public override string ToString() {
+        var sb = new StringBuilder();
+        sb.AppendLine($"- {Name} -");
+        sb.AppendLine("Ingredients:");
+        foreach (var ingredient in Ingredients.Ingredients) {
+            sb.AppendLine($"\t{ingredient.Product.Name}: {ingredient.Amount} {ingredient.Product.Unit.ToString().ToLower()}");
+        }
+        sb.AppendLine("Instructions:");
+        for (int i = 0; i < Instructions.Count; i++) {
+            sb.AppendLine($"\t{i + 1}. {Instructions[i]}");
+        }
+        sb.AppendLine($"Total Time: {TotalTime}");
+        sb.AppendLine($"Calories: {Calories}");
+        sb.AppendLine($"Protein: {Protein}");
+        sb.AppendLine($"Fat: {Fat}");
+        sb.AppendLine($"Carbohydrates: {Carbohydrates}");
+        return sb.ToString();
+    }
 }
 
 public class RecipeBuilder {
