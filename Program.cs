@@ -215,7 +215,7 @@ public class Program {
         List<Recipe> recipes;
         if (File.Exists(filePath)) {
             var options = new JsonSerializerOptions{
-            Converters = { new Product.ProductConverter(), new RecipeNamespace.IngredientListConverter() }
+            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
             };
             var json = File.ReadAllText(filePath);
             recipes = JsonSerializer.Deserialize<List<Recipe>>(json, options);

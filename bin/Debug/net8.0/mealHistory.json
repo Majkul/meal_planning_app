@@ -687,5 +687,49 @@
         "Carbohydrates": 4
       }
     ]
+  },
+  {
+    "Name": "Vegetable Stir Fry",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 0,
+    "Recipes": [
+      {
+        "Name": "Vegetable Stir Fry",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Broccoli",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 2.8,
+              "Fat": 0.4,
+              "Carbohydrates": 7
+            },
+            "Amount": 150
+          },
+          {
+            "Product": {
+              "Name": "Carrot",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 0.9,
+              "Fat": 0.2,
+              "Carbohydrates": 10
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Chop all the vegetables.",
+          "Stir fry them in a pan with a little oil.",
+          "Add soy sauce and serve with rice."
+        ],
+        "TotalTime": "00:20:00",
+        "Calories": 150,
+        "Protein": 4,
+        "Fat": 1,
+        "Carbohydrates": 17
+      }
+    ]
   }
 ]

@@ -64,43 +64,6 @@ namespace RecipeNamespace{
         }
     }
 
-public class IngredientListConverter : JsonConverter<IngredientList>
-{
-    public override IngredientList Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var ingredientList = new IngredientList();
-
-        using (JsonDocument doc = JsonDocument.ParseValue(ref reader))
-        {
-            var ingredientsArray = doc.RootElement.EnumerateArray();
-            
-            foreach (var ingredientElement in ingredientsArray)
-            {
-                var productJson = ingredientElement.GetProperty("Product");
-                var product = JsonSerializer.Deserialize<Product>(productJson.GetRawText(), options);
-                var amount = ingredientElement.GetProperty("Amount").GetDouble();
-                
-                ingredientList.Add(product, amount);
-            }
-        }
-
-        return ingredientList;
-    }
-
-    public override void Write(Utf8JsonWriter writer, IngredientList value, JsonSerializerOptions options)
-    {
-        writer.WriteStartArray();
-        foreach (var ingredient in value.Ingredients)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName("Product");
-            JsonSerializer.Serialize(writer, ingredient.Product, options);
-            writer.WriteNumber("Amount", ingredient.Amount);
-            writer.WriteEndObject();
-        }
-        writer.WriteEndArray();
-    }
-}
 public class Recipe {
     public string Name { get; set; }
     public IngredientList Ingredients { get; set; }

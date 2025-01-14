@@ -74,7 +74,7 @@ class MealHistory {
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
-            Converters = { new Product.ProductConverter(), new RecipeNamespace.IngredientListConverter() }
+            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
         };
 
         var json = JsonSerializer.Serialize(History, options);
@@ -89,7 +89,7 @@ class MealHistory {
     {
         var options = new JsonSerializerOptions
         {
-            Converters = { new Product.ProductConverter(), new RecipeNamespace.IngredientListConverter() }
+            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
         };
 
         var json = File.ReadAllText(filePath);
