@@ -10,7 +10,10 @@ namespace RecipeNamespace{
     {
         Ingredients = new List<Ingredient>();
     }
+    public IEnumerator<Ingredient> GetEnumerator() {
 
+        return Ingredients.GetEnumerator();
+    }
     public void Add(Product product, double amount)
     {
         Ingredients.Add(new Ingredient(product, amount));

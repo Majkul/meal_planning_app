@@ -107,5 +107,52 @@ public class ProductConverter : JsonConverter<Product>
         _adapter.Serialize(writer, value, options);
     }
 }
+public interface IFileSaveAdapter
+{
+    void SaveToFile(string filePath, object data);
+}
 
+public class JsonFileSaveAdapter : IFileSaveAdapter
+{
+    public void SaveToFile(string filePath, object data)
+    {
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
+        };
+
+        var json = JsonSerializer.Serialize(data, options);
+        File.WriteAllText(filePath, json);
+    }
+}
+
+public class TxtFileSaveAdapter : IFileSaveAdapter
+{
+    public void SaveToFile(string filePath, object data)
+    {
+        var text = data.ToString();
+        File.WriteAllText(filePath, text);
+    }
+}
+public class FileSaveManager
+{
+    public void SaveToFile(string filePath, object data)
+    {
+        IFileSaveAdapter adapter = GetAdapter(filePath);
+        adapter.SaveToFile(filePath, data);
+    }
+
+    private IFileSaveAdapter GetAdapter(string filePath)
+    {
+        var extension = Path.GetExtension(filePath).ToLower();
+
+        return extension switch
+        {
+            ".json" => new JsonFileSaveAdapter(),
+            ".txt" => new TxtFileSaveAdapter(),
+            _ => throw new NotSupportedException($"File format '{extension}' is not supported."),
+        };
+    }
+}
 }

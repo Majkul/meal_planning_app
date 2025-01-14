@@ -1,7 +1,8 @@
+using System.Text;
 using System.Text.Json;
 using RecipeNamespace;
 namespace Meal{
-class Meal {
+public class Meal {
     public string Name { get; set; }
     public DateTime Date { get; set; }
     public MealType Type { get; set; }
@@ -40,7 +41,7 @@ class Meal {
     }
 }
 
-class MealHistory {
+public class MealHistory {
     public List<Meal.MealMemento> History { get; set; }
 
     public MealHistory() {
@@ -71,35 +72,50 @@ class MealHistory {
 
     public void SaveToFile(string filePath)
     {
-        var options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
-        };
-
-        var json = JsonSerializer.Serialize(History, options);
-
-        File.WriteAllText(filePath, json);
+        var fileManager = new Adapter.FileSaveManager();
+        fileManager.SaveToFile(filePath, History);
     }
 
 
     public void LoadFromFile(string filePath)
-{
-    if (File.Exists(filePath))
     {
-        var options = new JsonSerializerOptions
+        if (File.Exists(filePath))
         {
-            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
-        };
+            var options = new JsonSerializerOptions
+            {
+                Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
+            };
 
-        var json = File.ReadAllText(filePath);
+            var json = File.ReadAllText(filePath);
 
-        History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json, options);
+            History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json, options);
+        }
+        else
+        {
+            History = new List<Meal.MealMemento>();
+        }
     }
-    else
-    {
-        History = new List<Meal.MealMemento>();
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            foreach (var memento in History)
+            {
+                sb.AppendLine($"Name: {memento.Name}");
+                sb.AppendLine($"Date: {memento.Date}");
+                sb.AppendLine($"Type: {memento.Type}");
+                sb.AppendLine("Recipes:");
+                foreach (var recipe in memento.Recipes)
+                {
+                    sb.AppendLine($"  - {recipe.Name}");
+                    foreach (var ingredient in recipe.Ingredients)
+                    {
+                        sb.AppendLine($"    - {ingredient.Product.Name} - {ingredient.Amount} {ingredient.Product.Unit}");
+                    }
+                }
+                sb.AppendLine();
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
     }
-}
-}
 }
