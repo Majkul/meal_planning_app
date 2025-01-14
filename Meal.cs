@@ -15,6 +15,7 @@ public class Meal {
         Dinner
     }
     public Meal(){
+        Name = "";
         Recipes = new List<Recipe>();
     }
     public class MealMemento {
@@ -22,6 +23,11 @@ public class Meal {
         public DateTime Date { get; set; }
         public MealType Type { get; set; }
         public List<Recipe> Recipes { get; set; }
+
+        public MealMemento() {
+            Name = "";
+            Recipes = new List<Recipe>();
+        }
     }
 
     public MealMemento Save() {
@@ -30,7 +36,7 @@ public class Meal {
             Date = Date,
             Type = Type,
             Recipes = Recipes
-    };
+        };
     }
 
     public void Restore(MealMemento memento) {
@@ -88,7 +94,13 @@ public class MealHistory {
 
             var json = File.ReadAllText(filePath);
 
-            History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json, options);
+            History = JsonSerializer.Deserialize<List<Meal.MealMemento>>(json, options)!;
+
+            if (History == null)
+            {
+                Console.WriteLine("Error: Could not load data from file.");
+                History = new List<Meal.MealMemento>();
+            }
         }
         else
         {

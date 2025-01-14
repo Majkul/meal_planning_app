@@ -77,6 +77,7 @@ public class Recipe {
     public double Carbohydrates { get; set; }
 
     public Recipe() {
+        Name = "";
         Ingredients = new IngredientList();
         Instructions = new List<string>();
     }
