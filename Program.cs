@@ -16,7 +16,7 @@ public class Program {
             try {
                 return Convert.ToDouble(Console.ReadLine());
             } catch (FormatException) {
-                Console.WriteLine("Nieprawidłowa liczba. Spróbuj ponownie.");
+                Console.WriteLine("Nieprawidłowa liczba. Spróbuj ponownie.\n");
             }
         }
     }
@@ -27,7 +27,7 @@ public class Program {
             try {
                 return Convert.ToInt32(Console.ReadLine());
             } catch (FormatException) {
-                Console.WriteLine("Nieprawidłowa liczba. Spróbuj ponownie.");
+                Console.WriteLine("Nieprawidłowa liczba. Spróbuj ponownie.\n");
             }
         }
     }
@@ -38,7 +38,7 @@ public class Program {
             try {
                 return Convert.ToDateTime(Console.ReadLine());
             } catch (FormatException) {
-                Console.WriteLine("Nieprawidłowa data. Spróbuj ponownie.");
+                Console.WriteLine("Nieprawidłowa data. Spróbuj ponownie.\n");
             }
         }
     }
@@ -112,7 +112,7 @@ public class Program {
                             }
                             else
                             {
-                                Console.WriteLine("Nieprawidłowy numer.");
+                                Console.WriteLine("Nieprawidłowy numer.\n");
                                 break;
                             }
                         }
@@ -131,7 +131,7 @@ public class Program {
                             }
                             else
                             {
-                                Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.");
+                                Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.\n");
                             }
                         }
                         Product.Categories category;
@@ -145,7 +145,7 @@ public class Program {
                             }
                             else
                             {
-                                Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.");
+                                Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.\n");
                             }
                         }
                         double protein = GetDoubleFromString("Podaj ilość białka:");
@@ -159,7 +159,7 @@ public class Program {
                         Console.WriteLine("Dodano składnik.");
                         break;
                     } else {
-                        Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                        Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
                         break;
                     }
                     break;
@@ -208,7 +208,7 @@ public class Program {
                     break;
 
                 default:
-                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
                     break;
             }
         }
@@ -492,7 +492,7 @@ public class Program {
                                         }
                                         else
                                         {
-                                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.");
+                                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.\n");
                                         }
                                     }
                                     mealHistory.Add(meal.Save());
@@ -506,7 +506,7 @@ public class Program {
                             }
 
                         } else {
-                            Console.WriteLine("Nieprawidłowy numer.");
+                            Console.WriteLine("Nieprawidłowy numer.\n");
                         }
                     }
                 } 
@@ -546,7 +546,7 @@ public class Program {
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Nieprawidłowy numer. Dodawanie nowego przepisu.");
+                                    Console.WriteLine("Nieprawidłowy numer. Dodawanie nowego przepisu.\n");
                                     recipeChoice = "nowy";
                                 }
                             }
@@ -566,7 +566,7 @@ public class Program {
                         }
                         else
                         {
-                            Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                            Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
                             i--;
                         }
                     }
@@ -582,7 +582,7 @@ public class Program {
                         }
                         else
                         {
-                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.");
+                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.\n");
                         }
                     }
                     newMeal.Date = today;
@@ -601,7 +601,7 @@ public class Program {
                     
                 }
                 else {
-                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
                 }
                 break;
 
@@ -642,18 +642,17 @@ public class Program {
                 switch (exportFormat)
                 {
                     case "json":
-                        fileManager.SaveToFile("mealHistory.json", mealHistory);
+                        fileManager.SaveToFile($"export-{today:dd.MM.yyyy-HH.mm.ss}.json", mealHistory);
+                        Console.WriteLine("Historia posiłków została wyeksportowana do formatu JSON.");
                         break;
                     case "txt":
-                        fileManager.SaveToFile("mealHistory.txt", mealHistory);
+                        fileManager.SaveToFile($"export-{today:dd.MM.yyyy-HH.mm.ss}.txt", mealHistory);
                         Console.WriteLine("Historia posiłków została wyeksportowana do formatu TXT.");
                         break;
                     default:
-                        Console.WriteLine("Nieprawidłowy format eksportu.");
+                        Console.WriteLine("Nieprawidłowy format eksportu.\n");
                         break;
                 }
-                mealHistory.SaveToFile(".//exportData.json");
-                Console.WriteLine("Historia posiłków została wyeksportowana.");
                 break;
             case "0":
                 break;
