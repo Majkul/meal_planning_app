@@ -392,7 +392,7 @@ public class Program {
         LoadProductsAndRecipesFromMealsHistory(mealHistory, ProductsDatabase, RecipesDatabase);
 
         //Menu
-        Console.WriteLine("1. Zmień dzień za pomocą < lub >");
+        Console.WriteLine("1. Zmień dzień za pomocą < lub >, lub wpisz datę w formacie dd.MM.yyyy");
         Console.WriteLine("2. Dodaj posiłek");
         Console.WriteLine("3. Wyświetlanie listy zakupów");
         Console.WriteLine("4. Wyeksportuj historię posiłków");
@@ -585,27 +585,36 @@ public class Program {
                 }
                 break;
             case "4":
-            Console.WriteLine("Wybierz format eksportu (json/xml/txt):");
-            string exportFormat = Console.ReadLine().ToLower();
+                Console.WriteLine("Wybierz format eksportu (json/xml/txt):");
+                string exportFormat = Console.ReadLine().ToLower();
 
-            var fileManager = new Adapter.FileSaveManager();
-            switch (exportFormat)
-            {
-                case "json":
-                    fileManager.SaveToFile("mealHistory.json", mealHistory);
+                var fileManager = new Adapter.FileSaveManager();
+                switch (exportFormat)
+                {
+                    case "json":
+                        fileManager.SaveToFile("mealHistory.json", mealHistory);
+                        break;
+                    case "txt":
+                        fileManager.SaveToFile("mealHistory.txt", mealHistory);
+                        Console.WriteLine("Historia posiłków została wyeksportowana do formatu TXT.");
+                        break;
+                    default:
+                        Console.WriteLine("Nieprawidłowy format eksportu.");
+                        break;
+                }
+                    mealHistory.SaveToFile(".//exportData.json");
+                    Console.WriteLine("Historia posiłków została wyeksportowana.");
                     break;
-                case "txt":
-                    fileManager.SaveToFile("mealHistory.txt", mealHistory);
-                    Console.WriteLine("Historia posiłków została wyeksportowana do formatu TXT.");
-                    break;
-                default:
-                    Console.WriteLine("Nieprawidłowy format eksportu.");
-                    break;
-            }
-                mealHistory.SaveToFile(".//exportData.json");
-                Console.WriteLine("Historia posiłków została wyeksportowana.");
+            case "0":
                 break;
-        }
+            default:
+                if (DateTime.TryParse(opcja, out today)) {
+                    Console.WriteLine("Zmieniono dzień na: " + today.ToString("dd.MM.yyyy"));
+                } else {
+                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                }
+                break;
+            }
         }
     }
 
