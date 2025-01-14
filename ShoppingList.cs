@@ -30,7 +30,7 @@ public class ShoppingList : IShoppingList
 
     public void AddProduct(Product product, int quantity)
     {
-        var existingItem = items.FirstOrDefault(i => i.Product == product);
+        var existingItem = items.FirstOrDefault(i => i.Product.Name == product.Name);
         if (existingItem != null)
         {
             existingItem.Quantity += quantity;
@@ -58,7 +58,7 @@ public class ShoppingList : IShoppingList
 
     public void MarkAsAdded(Product product)
     {
-        var existingItem = items.FirstOrDefault(i => i.Product == product);
+        var existingItem = items.FirstOrDefault(i => i.Product.Name == product.Name);
         if (existingItem != null)
         {
             existingItem.IsAdded = true;
@@ -76,7 +76,7 @@ public class ShoppingList : IShoppingList
         {
             foreach (var item in items)
             {
-                Console.WriteLine($"{item.Product.Name} - {item.Quantity} {item.Product.Unit} (Dodany: {(item.IsAdded ? "Tak" : "Nie")})");
+                Console.WriteLine($"{item.Product.Name} - {item.Quantity} {item.Product.Unit}");
             }
         }
     }
@@ -163,6 +163,29 @@ public class MarkAsAddedDecorator : ShoppingListDecorator
     {
         base.MarkAsAdded(product);
         Console.WriteLine($"Produkt '{product.Name}' został oznaczony jako dodany do koszyka.");
+    }
+    public override void DisplayProducts()
+    {
+        Console.WriteLine("\nLista zakupów według kategorii:");
+        var categorizedItems = shoppingList.GetItems()
+            .GroupBy(i => i.Product.Category)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        if (categorizedItems.Count == 0)
+        {
+            Console.WriteLine("Brak produktów na liście.");
+        }
+        else
+        {
+            foreach (var category in categorizedItems)
+            {
+                Console.WriteLine($"\nKategoria: {category.Key}");
+                foreach (var item in category.Value)
+                {
+                    Console.WriteLine($"  {item.Product.Name} - {item.Quantity} {item.Product.Unit} (Dodany: {(item.IsAdded ? "Tak" : "Nie")})");
+                }
+            }
+        }
     }
 }
 }

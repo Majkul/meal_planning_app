@@ -232,8 +232,8 @@ public class Program {
         }
     }
     static public void OnShopping(ShoppingList shoppingList, DatabaseConnection<Product> ProductsDatabase){
-        CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(shoppingList);
-        MarkAsAddedDecorator markAsAdded = new MarkAsAddedDecorator(categorizedDisplay);
+        //CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(shoppingList);
+        MarkAsAddedDecorator markAsAdded = new MarkAsAddedDecorator(shoppingList);
         string option="";
         while(true){
             markAsAdded.DisplayProducts();
@@ -245,7 +245,7 @@ public class Program {
             }
             try{
                 Product product = ProductsDatabase.GetRecordByName(option).obj;
-                shoppingList.MarkAsAdded(product);
+                markAsAdded.MarkAsAdded(product);
                 Console.WriteLine($"Dodano produkt: {product.Name}");
             }
             catch(System.NullReferenceException){

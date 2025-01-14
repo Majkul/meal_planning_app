@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ef54IFgxh7s=",
+  "dgSpecHash": "kzsxKCJhlzw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\korel\\Documents\\UNI\\Semestr3\\ZTP\\ZTP_Project\\meal_planning_app\\Projekt.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\korel\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.11\\microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
-    "C:\\Users\\korel\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.11\\microsoft.windowsdesktop.app.ref.8.0.11.nupkg.sha512",
-    "C:\\Users\\korel\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.11\\microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512",
-    "C:\\Users\\korel\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.11\\microsoft.netcore.app.host.win-x64.8.0.11.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\micha\\OneDrive\\Desktop\\codin\\ZTP\\Projekt\\Projekt.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
