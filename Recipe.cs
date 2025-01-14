@@ -2,8 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace RecipeNamespace{
-    public class IngredientList
-{
+public class IngredientList{
     public List<Ingredient> Ingredients { get; set; }
 
     public IngredientList()

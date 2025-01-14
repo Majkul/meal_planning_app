@@ -8,6 +8,7 @@ using DBconnection;
 using Meal;
 using ShoppingListNamespace;
 using Microsoft.VisualBasic;
+using System.ComponentModel;
 public class Program {
     public static void AddingRecipes(DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase, DatabaseConnection<Product> ProductsDatabase){
         Console.WriteLine("Dodawanie nowego przepisu...");
@@ -173,7 +174,9 @@ public class Program {
         List<string?> mealsForDate = new List<string?> { null, null, null, null, null };
 
         // Filtrowanie posiłków z historii dla podanej daty
-        var mealsOnDate = GetMealsForDate(mealHistory, date);
+        var mealsOnDate = mealHistory.History
+            .Where(m => m.Date.Date == date)
+            .ToList();
 
         // Przypisywanie nazw posiłków do odpowiednich indeksów w liście wyników
         foreach (var meal in mealsOnDate) {
@@ -183,10 +186,20 @@ public class Program {
         return mealsForDate;
     }
     static List<Meal.Meal.MealMemento> GetMealsForDate(MealHistory mealHistory, DateTime date){
+        // Inicjalizuj listę wyników (5 pozycji, jedna na każdy rodzaj posiłku)
+        List<Meal.Meal.MealMemento> mealsForDate = new List<Meal.Meal.MealMemento> { null, null, null, null, null };
+
+        // Filtrowanie posiłków z historii dla podanej daty
         var mealsOnDate = mealHistory.History
             .Where(m => m.Date.Date == date)
             .ToList();
-        return mealsOnDate;
+
+        // Przypisywanie nazw posiłków do odpowiednich indeksów w liście wyników
+        foreach (var meal in mealsOnDate) {
+            mealsForDate[(int)meal.Type] = meal; // Typ posiłku (enum) jako indeks
+        }
+
+        return mealsForDate;
     }
     static void LoadProductsAndRecipesFromMealsHistory(MealHistory mealHistory, DatabaseConnection<Product> ProductsDatabase, DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase) {
         foreach (var meal in mealHistory.History) {
@@ -314,19 +327,19 @@ public class Program {
             Console.WriteLine("|");
 
             Meal.Meal.MealType mealType = (Meal.Meal.MealType)Array.IndexOf(meals, meals[i]);
-            string mealName = melas_names_in_date[i] ?? "Brak posiłku";
-            foreach (var recipe in melas_in_date[i].Recipes)
-            {
-                TotalCalories += recipe.Calories;
-                TotalRecipeCalories += recipe.Calories;
-                foreach (var ingredient in recipe.Ingredients.Ingredients)
-                {
-                    TotalRecipeProtein += ingredient.Product.Protein * ingredient.Amount;
-                    TotalRecipeFat += ingredient.Product.Fat * ingredient.Amount;
-                    TotalRecipeCarbohydrates += ingredient.Product.Carbohydrates * ingredient.Amount;
-                    TotalProtein += ingredient.Product.Protein * ingredient.Amount;
-                    TotalFat += ingredient.Product.Fat * ingredient.Amount;
-                    TotalCarbohydrates += ingredient.Product.Carbohydrates * ingredient.Amount;
+            string mealName = melas_names_in_date[i] ?? "No meal";
+            if(mealName!="No meal"){
+                foreach (var recipe in melas_in_date[i].Recipes) {
+                    TotalCalories += recipe.Calories;
+                    TotalRecipeCalories += recipe.Calories;
+
+                    TotalRecipeProtein += recipe.Protein;
+                    TotalProtein += recipe.Protein;
+                    TotalRecipeFat += recipe.Fat;
+                    TotalFat += recipe.Fat;
+                    TotalRecipeCarbohydrates += recipe.Carbohydrates;
+                    TotalCarbohydrates += recipe.Carbohydrates;
+                
                 }
             }
 
