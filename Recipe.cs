@@ -103,7 +103,6 @@ public class Recipe {
 
 public class RecipeBuilder {
     private Recipe _recipe = new Recipe();
-
     public RecipeBuilder AddName(string name) {
         _recipe.Name = name;
         return this;
@@ -190,7 +189,32 @@ public class AddIngredientCommand : ICommand
         recipeBuilder.RemoveIngredient(product);
     }
 }
+public class DeleteIngredientCommand : ICommand
+{
+    private readonly RecipeBuilder recipeBuilder;
+    private readonly Product product;
+    private Ingredient removedIngredient;
 
+    public DeleteIngredientCommand(RecipeBuilder recipeBuilder, Product product)
+    {
+        this.recipeBuilder = recipeBuilder;
+        this.product = product;
+    }
+
+    public void Execute()
+    {
+        removedIngredient = recipeBuilder.Build().Ingredients.Ingredients.FirstOrDefault(i => i.Product == product);
+        recipeBuilder.RemoveIngredient(product);
+    }
+
+    public void Undo()
+    {
+        if (removedIngredient != null)
+        {
+            recipeBuilder.AddIngredient(product, removedIngredient.Amount);
+        }
+    }
+}
 public class CommandManager
 {
     private readonly Stack<ICommand> undoStack = new();

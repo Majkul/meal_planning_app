@@ -87,9 +87,13 @@ public class DatabaseConnection<T> : IDatabaseConnection<T> {
 
     // Dodawanie nowego rekordu
     public int AddRecord(T obj) {
+        // Sprawdzanie, czy rekord o danym imieniu już istnieje
+        if (db.records.Any(rec => rec.obj?.ToString() == obj?.ToString())) {
+            //Console.WriteLine($"Record with name {obj?.ToString()} already exists. Skipping insertion.");
+            return -1;
+        }
         Record<T> newRecord = new(db.nextId++, obj);
         db.records.Add(newRecord);
-        //Console.WriteLine($"Inserted: {newRecord}");
         return db.nextId - 1; // Zwracamy id dodanego rekordu
     }
 

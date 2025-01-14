@@ -18,11 +18,28 @@ public class Program {
 
         Console.WriteLine("Podaj nazwę przepisu:");
         string recipeName = Console.ReadLine();
-        recipeBuilder.AddName(recipeName); //Dodac sprawdzanie czy przepis istnieje
+        var existingRecipe = RecipesDatabase.GetAllRecords().FirstOrDefault(r => r.obj.Name == recipeName);
+        if (existingRecipe != null)
+        {
+            Console.WriteLine("Przepis o tej nazwie już istnieje. Podaj inną nazwę:");
+            recipeName = Console.ReadLine();
+            existingRecipe = RecipesDatabase.GetAllRecords().FirstOrDefault(r => r.obj.Name == recipeName);
+            if (existingRecipe != null)
+            {
+                Console.WriteLine("Przepis o tej nazwie już istnieje. Anulowano dodawanie przepisu.");
+                return;
+            }
+        }
+        recipeBuilder.AddName(recipeName);
 
         bool addingIngredients = true;
         
         while (addingIngredients){
+            Console.WriteLine("Aktualne składniki w przepisie:");
+            foreach (var ingredient in recipeBuilder.Build().Ingredients.Ingredients)
+            {
+                Console.WriteLine($"{ingredient.Product.Name} - {ingredient.Amount} {ingredient.Product.Unit}");
+            }
             Console.WriteLine("Co chcesz zrobić?");
             Console.WriteLine("1. Dodaj składnik");
             Console.WriteLine("2. Usuń składnik");
@@ -60,7 +77,6 @@ public class Program {
                                 Product selectedProduct = allProducts[productIndex].obj;
                                 Console.WriteLine("Podaj ilość składnika:");
                                 double selectedAmount = Convert.ToDouble(Console.ReadLine());
-                                //ICommand addIngredientCommand = new AddIngredientCommand(recipeBuilder, selectedProduct, selectedAmount);
                                 commandManager.ExecuteCommand(new AddIngredientCommand(recipeBuilder, selectedProduct, selectedAmount));
                                 Console.WriteLine("Dodano składnik.");
                                 break;
@@ -68,7 +84,7 @@ public class Program {
                             else
                             {
                                 Console.WriteLine("Nieprawidłowy numer. Dodawanie nowego składnika.");
-                                ingredientChoice = "nowy";
+                                break;
                             }
                         }
                     }
@@ -119,22 +135,20 @@ public class Program {
                     break;
 
                 case "2": // Usuwanie składnika
-                    // Console.WriteLine("Podaj nazwę składnika do usunięcia:");
-                    // string removeProductName = Console.ReadLine();
+                    Console.WriteLine("Podaj nazwę składnika do usunięcia:");
+                    string ingredientName = Console.ReadLine();
+                    Product ingredientToRemove = recipeBuilder.Build().Ingredients.Ingredients.FirstOrDefault(i => i.Product.Name == ingredientName)?.Product;
 
-                    // Product removeProduct = recipeBuilder.Build().Ingredients.Ingredients
-                    //     .Keys.FirstOrDefault(p => p.Name == removeProductName);
-
-                    // if (removeProduct != null)
-                    // {
-                    //     ICommand removeIngredientCommand = new AddIngredientCommand(recipeBuilder, removeProduct, 0);
-                    //     commandManager.ExecuteCommand(removeIngredientCommand);
-                    //     Console.WriteLine("Usunięto składnik.");
-                    // }
-                    // else
-                    // {
-                    //     Console.WriteLine("Nie znaleziono składnika.");
-                    // }
+                    if (ingredientToRemove != null)
+                    {
+                        ICommand deleteIngredientCommand = new DeleteIngredientCommand(recipeBuilder, ingredientToRemove);
+                        commandManager.ExecuteCommand(deleteIngredientCommand);
+                        Console.WriteLine("Usunięto składnik.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nie znaleziono składnika.");
+                    }
                     break;
 
                 case "3": // Dodawanie kroku instrukcji
@@ -159,7 +173,7 @@ public class Program {
                     Recipe newRecipe = recipeBuilder.Build();
                     Console.WriteLine("Zakończono dodawanie przepisu:");
                     Console.WriteLine(newRecipe.ToString());
-                    RecipesDatabase.AddRecord(newRecipe); // Zapisz przepis do bazy danych
+                    RecipesDatabase.AddRecord(newRecipe);
                     addingIngredients = false;
                     break;
 
@@ -245,7 +259,6 @@ public class Program {
         }
     }
     static public void OnShopping(ShoppingList shoppingList, DatabaseConnection<Product> ProductsDatabase){
-        //CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(shoppingList);
         MarkAsAddedDecorator markAsAdded = new MarkAsAddedDecorator(shoppingList);
         string option="";
         while(true){
@@ -378,7 +391,6 @@ public class Program {
         //Załaduj produkty i przepisy z historii posiłków
         LoadProductsAndRecipesFromMealsHistory(mealHistory, ProductsDatabase, RecipesDatabase);
 
-        //TODO obliczanie kalorii i makro z całego dnia i wyświetlenie na dole
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >");
         Console.WriteLine("2. Dodaj posiłek");
@@ -400,15 +412,20 @@ public class Program {
                 string copyMeal = Console.ReadLine();
 
                 if (copyMeal.ToLower() == "tak") { //TODO niech wyświetlają się unikatowe posiłki, w sensie żeby się nie powtarzały przez to że są te same posiłki na różne daty
-                    mealHistory.LoadFromFile("mealHistory.json");
+
                     // Wyświetl historię posiłków
                     if (mealHistory.History.Count == 0) {
                         Console.WriteLine("Brak zapisanych posiłków w historii.");
                     } else {
+                        mealHistory.History = mealHistory.History.OrderBy(m => m.Date).ToList();
                         Console.WriteLine("Dostępne posiłki:");
+                        Console.WriteLine(new string('-', 100));
+                        Console.WriteLine($"| {"Nr",-3} | {"Name",-40} | {"Type",-20} | {"Date",-20} |");
+                        Console.WriteLine(new string('-', 100));
                         for (int i = 0; i < mealHistory.History.Count; i++) {
-                            Console.WriteLine($"{i + 1}: {mealHistory.History[i].Name}");
+                            Console.WriteLine($"| {i + 1,-3} | {mealHistory.History[i].Name,-40} | {mealHistory.History[i].Type,-20} | {mealHistory.History[i].Date.ToString("dd.MM.yyyy"),-20} |");
                         }
+                        Console.WriteLine(new string('-', 100));
 
                         Console.WriteLine("Podaj numer posiłku, który chcesz skopiować:");
                         int mealIndex = Convert.ToInt32(Console.ReadLine()) - 1;

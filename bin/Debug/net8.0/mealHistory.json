@@ -817,5 +817,50 @@
         "Carbohydrates": 50
       }
     ]
+  },
+  {
+    "Name": "Omelette",
+    "Date": "2025-01-15T00:00:00+01:00",
+    "Type": 4,
+    "Recipes": [
+      {
+        "Name": "Omelette",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Eggs",
+              "Category": "Other",
+              "Unit": "Units",
+              "Protein": 6,
+              "Fat": 5,
+              "Carbohydrates": 1
+            },
+            "Amount": 3
+          },
+          {
+            "Product": {
+              "Name": "Cheese",
+              "Category": "Dairy",
+              "Unit": "Grams",
+              "Protein": 25,
+              "Fat": 33,
+              "Carbohydrates": 1.3
+            },
+            "Amount": 50
+          }
+        ],
+        "Instructions": [
+          "Beat the eggs in a bowl.",
+          "Pour the eggs into a heated pan.",
+          "Add cheese and fold the omelette in half.",
+          "Cook until the cheese is melted."
+        ],
+        "TotalTime": "00:15:00",
+        "Calories": 300,
+        "Protein": 28,
+        "Fat": 20,
+        "Carbohydrates": 4
+      }
+    ]
   }
 ]
