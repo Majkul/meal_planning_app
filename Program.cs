@@ -608,9 +608,11 @@ public class Program {
             case "0":
                 break;
             default:
+                var previousDate = today;
                 if (DateTime.TryParse(opcja, out today)) {
                     Console.WriteLine("Zmieniono dzień na: " + today.ToString("dd.MM.yyyy"));
                 } else {
+                    today = previousDate;
                     Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
                 }
                 break;
