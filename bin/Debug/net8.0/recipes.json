@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "Chocolate Cake",
+    "Ingredients": [
+        {
+            "Product": {
+                "Name": "Flour",
+                "Category": "Grain",
+                "Unit": "Grams",
+                "Protein": 10,
+                "Fat": 1,
+                "Carbohydrates": 75
+            },
+            "Amount": 200
+        },
+        {
+            "Product": {
+                "Name": "Cocoa Powder",
+                "Category": "Other",
+                "Unit": "Grams",
+                "Protein": 19.6,
+                "Fat": 13.7,
+                "Carbohydrates": 57.9
+            },
+            "Amount": 50
+        }
+    ],
+    "Instructions": [
+        "Preheat the oven to 180°C (350°F).",
+        "Mix the flour and cocoa powder together.",
+        "Add the remaining ingredients and mix well.",
+        "Pour the batter into a greased cake pan.",
+        "Bake for 30-35 minutes or until a toothpick inserted into the center comes out clean.",
+        "Let the cake cool before serving."
+    ],
+    "TotalTime": "01:00:00",
+    "Calories": 450,
+    "Protein": 29.6,
+    "Fat": 14.7,
+    "Carbohydrates": 132.9
+  }
+]
