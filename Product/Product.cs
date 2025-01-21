@@ -1,5 +1,4 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+namespace Product{
 public class Product {
     public enum Categories { Fruit, Vegetable, Meat, Dairy, Grain, Other }
     public enum Units { Grams, Milliliters, Units }
@@ -21,4 +20,6 @@ public class Product {
     public override string ToString() {
         return $"{Name}"; //Konieczne aby działało wyszukiwanie w bazie danych po nazwie
     }
+}
+
 }

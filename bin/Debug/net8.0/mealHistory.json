@@ -1,5 +1,311 @@
 [
   {
+    "Name": "Fruit Salad",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 0,
+    "Recipes": [
+      {
+        "Name": "Fruit Salad",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Apple",
+              "Category": "Fruit",
+              "Unit": "Grams",
+              "Protein": 0.3,
+              "Fat": 0.2,
+              "Carbohydrates": 25
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Banana",
+              "Category": "Fruit",
+              "Unit": "Grams",
+              "Protein": 1.1,
+              "Fat": 0.3,
+              "Carbohydrates": 27
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Chop all the fruits into bite-sized pieces.",
+          "Mix them together in a bowl.",
+          "Serve chilled."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 200,
+        "Protein": 1.4,
+        "Fat": 0.5,
+        "Carbohydrates": 52
+      }
+    ]
+  },
+  {
+    "Name": "Fruit Salad",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 0,
+    "Recipes": [
+      {
+        "Name": "Fruit Salad",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Apple",
+              "Category": "Fruit",
+              "Unit": "Grams",
+              "Protein": 0.3,
+              "Fat": 0.2,
+              "Carbohydrates": 25
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Banana",
+              "Category": "Fruit",
+              "Unit": "Grams",
+              "Protein": 1.1,
+              "Fat": 0.3,
+              "Carbohydrates": 27
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Chop all the fruits into bite-sized pieces.",
+          "Mix them together in a bowl.",
+          "Serve chilled."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 200,
+        "Protein": 1.4,
+        "Fat": 0.5,
+        "Carbohydrates": 52
+      }
+    ]
+  },
+  {
+    "Name": "Kanapka z serem",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 3,
+    "Recipes": [
+      {
+        "Name": "Turkey Sandwich",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Bread",
+              "Category": "Grain",
+              "Unit": "Grams",
+              "Protein": 8,
+              "Fat": 1,
+              "Carbohydrates": 49
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Turkey",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 29,
+              "Fat": 1,
+              "Carbohydrates": 0
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Place turkey slices between two slices of bread.",
+          "Add lettuce, tomato, and your favorite condiments."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 300,
+        "Protein": 37,
+        "Fat": 2,
+        "Carbohydrates": 49
+      }
+    ]
+  },
+  {
+    "Name": "Omelette",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 4,
+    "Recipes": [
+      {
+        "Name": "Omelette",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Eggs",
+              "Category": "Other",
+              "Unit": "Units",
+              "Protein": 6,
+              "Fat": 5,
+              "Carbohydrates": 1
+            },
+            "Amount": 3
+          },
+          {
+            "Product": {
+              "Name": "Cheese",
+              "Category": "Dairy",
+              "Unit": "Grams",
+              "Protein": 25,
+              "Fat": 33,
+              "Carbohydrates": 1.3
+            },
+            "Amount": 50
+          }
+        ],
+        "Instructions": [
+          "Beat the eggs in a bowl.",
+          "Pour the eggs into a heated pan.",
+          "Add cheese and fold the omelette in half.",
+          "Cook until the cheese is melted."
+        ],
+        "TotalTime": "00:15:00",
+        "Calories": 300,
+        "Protein": 28,
+        "Fat": 20,
+        "Carbohydrates": 4
+      }
+    ]
+  },
+  {
+    "Name": "Vegetable Stir Fry",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 0,
+    "Recipes": [
+      {
+        "Name": "Vegetable Stir Fry",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Broccoli",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 2.8,
+              "Fat": 0.4,
+              "Carbohydrates": 7
+            },
+            "Amount": 150
+          },
+          {
+            "Product": {
+              "Name": "Carrot",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 0.9,
+              "Fat": 0.2,
+              "Carbohydrates": 10
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Chop all the vegetables.",
+          "Stir fry them in a pan with a little oil.",
+          "Add soy sauce and serve with rice."
+        ],
+        "TotalTime": "00:20:00",
+        "Calories": 150,
+        "Protein": 4,
+        "Fat": 1,
+        "Carbohydrates": 17
+      }
+    ]
+  },
+  {
+    "Name": "Grilled Cheese Sandwich",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 1,
+    "Recipes": [
+      {
+        "Name": "Grilled Cheese Sandwich",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Bread",
+              "Category": "Grain",
+              "Unit": "Grams",
+              "Protein": 8,
+              "Fat": 1,
+              "Carbohydrates": 49
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Cheese",
+              "Category": "Dairy",
+              "Unit": "Grams",
+              "Protein": 25,
+              "Fat": 33,
+              "Carbohydrates": 1.3
+            },
+            "Amount": 50
+          }
+        ],
+        "Instructions": [
+          "Place cheese between two slices of bread.",
+          "Grill the sandwich until the bread is golden brown and the cheese is melted."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 400,
+        "Protein": 33,
+        "Fat": 34,
+        "Carbohydrates": 50
+      }
+    ]
+  },
+  {
+    "Name": "Grilled Cheese Sandwich",
+    "Date": "2025-01-14T00:00:00+01:00",
+    "Type": 4,
+    "Recipes": [
+      {
+        "Name": "Grilled Cheese Sandwich",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Bread",
+              "Category": "Grain",
+              "Unit": "Grams",
+              "Protein": 8,
+              "Fat": 1,
+              "Carbohydrates": 49
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Cheese",
+              "Category": "Dairy",
+              "Unit": "Grams",
+              "Protein": 25,
+              "Fat": 33,
+              "Carbohydrates": 1.3
+            },
+            "Amount": 50
+          }
+        ],
+        "Instructions": [
+          "Place cheese between two slices of bread.",
+          "Grill the sandwich until the bread is golden brown and the cheese is melted."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 400,
+        "Protein": 33,
+        "Fat": 34,
+        "Carbohydrates": 50
+      }
+    ]
+  },
+  {
     "Name": "Pancakes",
     "Date": "2025-01-14T08:00:00",
     "Type": 0,
@@ -129,6 +435,51 @@
         "Protein": 31,
         "Fat": 16,
         "Carbohydrates": 90
+      }
+    ]
+  },
+  {
+    "Name": "Omelette",
+    "Date": "2025-01-15T00:00:00+01:00",
+    "Type": 4,
+    "Recipes": [
+      {
+        "Name": "Omelette",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Eggs",
+              "Category": "Other",
+              "Unit": "Units",
+              "Protein": 6,
+              "Fat": 5,
+              "Carbohydrates": 1
+            },
+            "Amount": 3
+          },
+          {
+            "Product": {
+              "Name": "Cheese",
+              "Category": "Dairy",
+              "Unit": "Grams",
+              "Protein": 25,
+              "Fat": 33,
+              "Carbohydrates": 1.3
+            },
+            "Amount": 50
+          }
+        ],
+        "Instructions": [
+          "Beat the eggs in a bowl.",
+          "Pour the eggs into a heated pan.",
+          "Add cheese and fold the omelette in half.",
+          "Cook until the cheese is melted."
+        ],
+        "TotalTime": "00:15:00",
+        "Calories": 300,
+        "Protein": 28,
+        "Fat": 20,
+        "Carbohydrates": 4
       }
     ]
   },
@@ -396,6 +747,93 @@
     ]
   },
   {
+    "Name": "Spaghetti Bolognese",
+    "Date": "2025-01-17T00:00:00+01:00",
+    "Type": 2,
+    "Recipes": [
+      {
+        "Name": "Spaghetti Bolognese",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Spaghetti",
+              "Category": "Grain",
+              "Unit": "Grams",
+              "Protein": 5,
+              "Fat": 1,
+              "Carbohydrates": 30
+            },
+            "Amount": 200
+          },
+          {
+            "Product": {
+              "Name": "Ground Beef",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 26,
+              "Fat": 15,
+              "Carbohydrates": 0
+            },
+            "Amount": 150
+          }
+        ],
+        "Instructions": [
+          "Cook the spaghetti according to package instructions.",
+          "Brown the ground beef in a pan.",
+          "Mix the cooked spaghetti with the beef and your favorite sauce."
+        ],
+        "TotalTime": "00:40:00",
+        "Calories": 600,
+        "Protein": 31,
+        "Fat": 16,
+        "Carbohydrates": 90
+      }
+    ]
+  },
+  {
+    "Name": "Kanapka z serem",
+    "Date": "2025-01-17T00:00:00+01:00",
+    "Type": 3,
+    "Recipes": [
+      {
+        "Name": "Turkey Sandwich",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Bread",
+              "Category": "Grain",
+              "Unit": "Grams",
+              "Protein": 8,
+              "Fat": 1,
+              "Carbohydrates": 49
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Turkey",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 29,
+              "Fat": 1,
+              "Carbohydrates": 0
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Place turkey slices between two slices of bread.",
+          "Add lettuce, tomato, and your favorite condiments."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 300,
+        "Protein": 37,
+        "Fat": 2,
+        "Carbohydrates": 49
+      }
+    ]
+  },
+  {
     "Name": "Scrambled Eggs",
     "Date": "2025-01-17T08:00:00",
     "Type": 0,
@@ -484,213 +922,8 @@
     ]
   },
   {
-    "Name": "Fruit Salad",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 0,
-    "Recipes": [
-      {
-        "Name": "Fruit Salad",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Apple",
-              "Category": "Fruit",
-              "Unit": "Grams",
-              "Protein": 0.3,
-              "Fat": 0.2,
-              "Carbohydrates": 25
-            },
-            "Amount": 100
-          },
-          {
-            "Product": {
-              "Name": "Banana",
-              "Category": "Fruit",
-              "Unit": "Grams",
-              "Protein": 1.1,
-              "Fat": 0.3,
-              "Carbohydrates": 27
-            },
-            "Amount": 100
-          }
-        ],
-        "Instructions": [
-          "Chop all the fruits into bite-sized pieces.",
-          "Mix them together in a bowl.",
-          "Serve chilled."
-        ],
-        "TotalTime": "00:10:00",
-        "Calories": 200,
-        "Protein": 1.4,
-        "Fat": 0.5,
-        "Carbohydrates": 52
-      }
-    ]
-  },
-  {
-    "Name": "Fruit Salad",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 0,
-    "Recipes": [
-      {
-        "Name": "Fruit Salad",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Apple",
-              "Category": "Fruit",
-              "Unit": "Grams",
-              "Protein": 0.3,
-              "Fat": 0.2,
-              "Carbohydrates": 25
-            },
-            "Amount": 100
-          },
-          {
-            "Product": {
-              "Name": "Banana",
-              "Category": "Fruit",
-              "Unit": "Grams",
-              "Protein": 1.1,
-              "Fat": 0.3,
-              "Carbohydrates": 27
-            },
-            "Amount": 100
-          }
-        ],
-        "Instructions": [
-          "Chop all the fruits into bite-sized pieces.",
-          "Mix them together in a bowl.",
-          "Serve chilled."
-        ],
-        "TotalTime": "00:10:00",
-        "Calories": 200,
-        "Protein": 1.4,
-        "Fat": 0.5,
-        "Carbohydrates": 52
-      }
-    ]
-  },
-  {
-    "Name": "few",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 0,
-    "Recipes": [
-      {
-        "Name": "gweg",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Banana",
-              "Category": "Fruit",
-              "Unit": "Grams",
-              "Protein": 1.1,
-              "Fat": 0.3,
-              "Carbohydrates": 27
-            },
-            "Amount": 100
-          }
-        ],
-        "Instructions": [],
-        "TotalTime": "00:00:00",
-        "Calories": 11510,
-        "Protein": 110.00000000000001,
-        "Fat": 30,
-        "Carbohydrates": 2700
-      }
-    ]
-  },
-  {
-    "Name": "Kanapka z serem",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 3,
-    "Recipes": [
-      {
-        "Name": "Turkey Sandwich",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Bread",
-              "Category": "Grain",
-              "Unit": "Grams",
-              "Protein": 8,
-              "Fat": 1,
-              "Carbohydrates": 49
-            },
-            "Amount": 100
-          },
-          {
-            "Product": {
-              "Name": "Turkey",
-              "Category": "Meat",
-              "Unit": "Grams",
-              "Protein": 29,
-              "Fat": 1,
-              "Carbohydrates": 0
-            },
-            "Amount": 100
-          }
-        ],
-        "Instructions": [
-          "Place turkey slices between two slices of bread.",
-          "Add lettuce, tomato, and your favorite condiments."
-        ],
-        "TotalTime": "00:10:00",
-        "Calories": 300,
-        "Protein": 37,
-        "Fat": 2,
-        "Carbohydrates": 49
-      }
-    ]
-  },
-  {
-    "Name": "Omelette",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 4,
-    "Recipes": [
-      {
-        "Name": "Omelette",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Eggs",
-              "Category": "Other",
-              "Unit": "Units",
-              "Protein": 6,
-              "Fat": 5,
-              "Carbohydrates": 1
-            },
-            "Amount": 3
-          },
-          {
-            "Product": {
-              "Name": "Cheese",
-              "Category": "Dairy",
-              "Unit": "Grams",
-              "Protein": 25,
-              "Fat": 33,
-              "Carbohydrates": 1.3
-            },
-            "Amount": 50
-          }
-        ],
-        "Instructions": [
-          "Beat the eggs in a bowl.",
-          "Pour the eggs into a heated pan.",
-          "Add cheese and fold the omelette in half.",
-          "Cook until the cheese is melted."
-        ],
-        "TotalTime": "00:15:00",
-        "Calories": 300,
-        "Protein": 28,
-        "Fat": 20,
-        "Carbohydrates": 4
-      }
-    ]
-  },
-  {
     "Name": "Vegetable Stir Fry",
-    "Date": "2025-01-14T00:00:00+01:00",
+    "Date": "2025-01-18T00:00:00+01:00",
     "Type": 0,
     "Recipes": [
       {
@@ -733,95 +966,9 @@
     ]
   },
   {
-    "Name": "Grilled Cheese Sandwich",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 1,
-    "Recipes": [
-      {
-        "Name": "Grilled Cheese Sandwich",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Bread",
-              "Category": "Grain",
-              "Unit": "Grams",
-              "Protein": 8,
-              "Fat": 1,
-              "Carbohydrates": 49
-            },
-            "Amount": 100
-          },
-          {
-            "Product": {
-              "Name": "Cheese",
-              "Category": "Dairy",
-              "Unit": "Grams",
-              "Protein": 25,
-              "Fat": 33,
-              "Carbohydrates": 1.3
-            },
-            "Amount": 50
-          }
-        ],
-        "Instructions": [
-          "Place cheese between two slices of bread.",
-          "Grill the sandwich until the bread is golden brown and the cheese is melted."
-        ],
-        "TotalTime": "00:10:00",
-        "Calories": 400,
-        "Protein": 33,
-        "Fat": 34,
-        "Carbohydrates": 50
-      }
-    ]
-  },
-  {
-    "Name": "Grilled Cheese Sandwich",
-    "Date": "2025-01-14T00:00:00+01:00",
-    "Type": 4,
-    "Recipes": [
-      {
-        "Name": "Grilled Cheese Sandwich",
-        "Ingredients": [
-          {
-            "Product": {
-              "Name": "Bread",
-              "Category": "Grain",
-              "Unit": "Grams",
-              "Protein": 8,
-              "Fat": 1,
-              "Carbohydrates": 49
-            },
-            "Amount": 100
-          },
-          {
-            "Product": {
-              "Name": "Cheese",
-              "Category": "Dairy",
-              "Unit": "Grams",
-              "Protein": 25,
-              "Fat": 33,
-              "Carbohydrates": 1.3
-            },
-            "Amount": 50
-          }
-        ],
-        "Instructions": [
-          "Place cheese between two slices of bread.",
-          "Grill the sandwich until the bread is golden brown and the cheese is melted."
-        ],
-        "TotalTime": "00:10:00",
-        "Calories": 400,
-        "Protein": 33,
-        "Fat": 34,
-        "Carbohydrates": 50
-      }
-    ]
-  },
-  {
     "Name": "Omelette",
-    "Date": "2025-01-15T00:00:00+01:00",
-    "Type": 4,
+    "Date": "2025-01-18T00:00:00+01:00",
+    "Type": 3,
     "Recipes": [
       {
         "Name": "Omelette",
@@ -860,6 +1007,93 @@
         "Protein": 28,
         "Fat": 20,
         "Carbohydrates": 4
+      }
+    ]
+  },
+  {
+    "Name": "Beef Stew",
+    "Date": "2025-01-18T00:00:00+01:00",
+    "Type": 2,
+    "Recipes": [
+      {
+        "Name": "Beef Stew",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Beef",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 26,
+              "Fat": 15,
+              "Carbohydrates": 0
+            },
+            "Amount": 200
+          },
+          {
+            "Product": {
+              "Name": "Carrot",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 0.9,
+              "Fat": 0.2,
+              "Carbohydrates": 10
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Brown the beef in a pot.",
+          "Add chopped carrots and other vegetables.",
+          "Simmer until the beef is tender."
+        ],
+        "TotalTime": "02:00:00",
+        "Calories": 500,
+        "Protein": 40,
+        "Fat": 20,
+        "Carbohydrates": 20
+      }
+    ]
+  },
+  {
+    "Name": "kanapki",
+    "Date": "2025-01-18T00:00:00+01:00",
+    "Type": 2,
+    "Recipes": [
+      {
+        "Name": "Turkey Sandwich",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Bread",
+              "Category": "Grain",
+              "Unit": "Grams",
+              "Protein": 8,
+              "Fat": 1,
+              "Carbohydrates": 49
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Turkey",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 29,
+              "Fat": 1,
+              "Carbohydrates": 0
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Place turkey slices between two slices of bread.",
+          "Add lettuce, tomato, and your favorite condiments."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 300,
+        "Protein": 37,
+        "Fat": 2,
+        "Carbohydrates": 49
       }
     ]
   }

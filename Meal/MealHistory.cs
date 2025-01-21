@@ -1,52 +1,6 @@
 using System.Text;
 using System.Text.Json;
-using RecipeNamespace;
 namespace Meal{
-public class Meal {
-    public string Name { get; set; }
-    public DateTime Date { get; set; }
-    public MealType Type { get; set; }
-    public List<Recipe> Recipes { get; set; }
-    public enum MealType {
-        Breakfast,
-        SnackI,
-        Lunch,
-        SnackII,
-        Dinner
-    }
-    public Meal(){
-        Name = "";
-        Recipes = new List<Recipe>();
-    }
-    public class MealMemento {
-        public string Name { get; set; }
-        public DateTime Date { get; set; }
-        public MealType Type { get; set; }
-        public List<Recipe> Recipes { get; set; }
-
-        public MealMemento() {
-            Name = "";
-            Recipes = new List<Recipe>();
-        }
-    }
-
-    public MealMemento Save() {
-        return new MealMemento {
-            Name = Name,
-            Date = Date,
-            Type = Type,
-            Recipes = Recipes
-        };
-    }
-
-    public void Restore(MealMemento memento) {
-        Name = memento.Name;
-        Date = memento.Date;
-        Type = memento.Type;
-        Recipes = memento.Recipes;
-    }
-}
-
 public class MealHistory {
     public List<Meal.MealMemento> History { get; set; }
 
@@ -78,7 +32,7 @@ public class MealHistory {
 
     public void SaveToFile(string filePath)
     {
-        var fileManager = new Adapter.FileSaveManager();
+        var fileManager = new Adapters.FileSaveAdapter.FileSaveManager();
         fileManager.SaveToFile(filePath, History);
     }
 
@@ -89,7 +43,7 @@ public class MealHistory {
         {
             var options = new JsonSerializerOptions
             {
-                Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
+                Converters = { new Adapters.JsonAdapter.ProductConverter(), new Adapters.JsonAdapter.IngredientListConverter() }
             };
 
             var json = File.ReadAllText(filePath);

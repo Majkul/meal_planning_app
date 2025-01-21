@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using System.Globalization;
-using RecipeNamespace;
-using DBconnection;
-using Meal;
-using ShoppingListNamespace;
-using Microsoft.VisualBasic;
-using System.ComponentModel;
+using ShoppingList.Decorators;
+namespace Program{
 public class Program {
     private static double GetDoubleFromString(string message) {
         while (true) {
@@ -43,10 +36,10 @@ public class Program {
         }
     }
 
-    public static void AddingRecipes(DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase, DatabaseConnection<Product> ProductsDatabase){
+    public static void AddingRecipes(DB.DatabaseConnection<Recipe.Recipe> RecipesDatabase, DB.DatabaseConnection<Product.Product> ProductsDatabase){
         Console.WriteLine("Dodawanie nowego przepisu...");
-        RecipeBuilder recipeBuilder = new RecipeBuilder();
-        CommandManager commandManager = new CommandManager();
+        Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder();
+        Recipe.Commands.CommandManager commandManager = new Recipe.Commands.CommandManager();
 
 
         Console.WriteLine("Podaj nazwę przepisu:");
@@ -104,9 +97,9 @@ public class Program {
                             int productIndex = GetIntFromString("Podaj numer składnika, który chcesz dodać:") - 1;
                             if (productIndex >= 0 && productIndex < allProducts.Count)
                             {
-                                Product selectedProduct = allProducts[productIndex].obj;
+                                Product.Product selectedProduct = allProducts[productIndex].obj;
                                 double selectedAmount = GetDoubleFromString("Podaj ilość składnika:");
-                                commandManager.ExecuteCommand(new AddIngredientCommand(recipeBuilder, selectedProduct, selectedAmount));
+                                commandManager.ExecuteCommand(new Recipe.Commands.AddIngredientCommand(recipeBuilder, selectedProduct, selectedAmount));
                                 Console.WriteLine("Dodano składnik.");
                                 break;
                             }
@@ -120,7 +113,7 @@ public class Program {
                         Console.WriteLine("Podaj nazwę składnika:");
                         string productName = Console.ReadLine() ?? $"Product {ProductsDatabase.GetAllRecords().Count + 1}";
                         double amount = GetDoubleFromString("Podaj ilość składnika:");
-                        Product.Units unit;
+                        Product.Product.Units unit;
                         while (true)
                         {
                             Console.WriteLine("Podaj jednostkę składnika: (Grams, Milliliters, Units)");
@@ -134,7 +127,7 @@ public class Program {
                                 Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.\n");
                             }
                         }
-                        Product.Categories category;
+                        Product.Product.Categories category;
                         while (true)
                         {
                             Console.WriteLine("Podaj kategorię składnika: (Fruit, Vegetable, Meat, Dairy, Grain, Other)");
@@ -152,9 +145,9 @@ public class Program {
                         double fat = GetDoubleFromString("Podaj ilość tłuszczu:");
                         double carbohydrates = GetDoubleFromString("Podaj ilość węglowodanów:");
 
-                        Product product = new Product(productName, unit, category, protein, fat, carbohydrates);
+                        Product.Product product = new Product.Product(productName, unit, category, protein, fat, carbohydrates);
                     
-                        ICommand addIngredientCommand = new AddIngredientCommand(recipeBuilder, product, amount);
+                        Recipe.Commands.ICommand addIngredientCommand = new Recipe.Commands.AddIngredientCommand(recipeBuilder, product, amount);
                         commandManager.ExecuteCommand(addIngredientCommand);
                         Console.WriteLine("Dodano składnik.");
                         break;
@@ -167,11 +160,11 @@ public class Program {
                 case "2": // Usuwanie składnika
                     Console.WriteLine("Podaj nazwę składnika do usunięcia:");
                     string ingredientName = Console.ReadLine()?.ToLower()!;
-                    Product ingredientToRemove = recipeBuilder.Build().Ingredients.Ingredients.FirstOrDefault(i => i.Product.Name.ToLower() == ingredientName)?.Product!;
+                    Product.Product ingredientToRemove = recipeBuilder.Build().Ingredients.Ingredients.FirstOrDefault(i => i.Product.Name.ToLower() == ingredientName)?.Product!;
 
                     if (ingredientToRemove != null)
                     {
-                        ICommand deleteIngredientCommand = new DeleteIngredientCommand(recipeBuilder, ingredientToRemove);
+                        Recipe.Commands.ICommand deleteIngredientCommand = new Recipe.Commands.DeleteIngredientCommand(recipeBuilder, ingredientToRemove);
                         commandManager.ExecuteCommand(deleteIngredientCommand);
                         Console.WriteLine("Usunięto składnik.");
                     }
@@ -200,7 +193,7 @@ public class Program {
 
                 case "6": // Zakończenie dodawania przepisu
                     recipeBuilder.CalculateNutrition();
-                    Recipe newRecipe = recipeBuilder.Build();
+                    Recipe.Recipe newRecipe = recipeBuilder.Build();
                     Console.WriteLine("Zakończono dodawanie przepisu:");
                     Console.WriteLine(newRecipe.ToString());
                     RecipesDatabase.AddRecord(newRecipe);
@@ -213,7 +206,7 @@ public class Program {
             }
         }
     }
-    static List<string?> GetMealsNamesForDate(MealHistory mealHistory, DateTime date) {
+    static List<string?> GetMealsNamesForDate(Meal.MealHistory mealHistory, DateTime date) {
         // Inicjalizuj listę wyników (5 pozycji, jedna na każdy rodzaj posiłku)
         List<string?> mealsForDate = new List<string?> { null, null, null, null, null };
 
@@ -229,7 +222,7 @@ public class Program {
 
         return mealsForDate;
     }
-    static List<Meal.Meal.MealMemento> GetMealsForDate(MealHistory mealHistory, DateTime date){
+    static List<Meal.Meal.MealMemento> GetMealsForDate(Meal.MealHistory mealHistory, DateTime date){
         // Inicjalizuj listę wyników (5 pozycji, jedna na każdy rodzaj posiłku)
         List<Meal.Meal.MealMemento> mealsForDate = new List<Meal.Meal.MealMemento> { null!, null!, null!, null!, null! };
 
@@ -245,7 +238,7 @@ public class Program {
 
         return mealsForDate;
     }
-    static void LoadProductsAndRecipesFromMealsHistory(MealHistory mealHistory, DatabaseConnection<Product> ProductsDatabase, DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase) {
+    static void LoadProductsAndRecipesFromMealsHistory(Meal.MealHistory mealHistory, DB.DatabaseConnection<Product.Product> ProductsDatabase, DB.DatabaseConnection<Recipe.Recipe> RecipesDatabase) {
         foreach (var meal in mealHistory.History) {
             foreach (var recipe in meal.Recipes) {
                 foreach (var ingredient in recipe.Ingredients.Ingredients) {
@@ -255,37 +248,37 @@ public class Program {
             }
         }
     }
-    static public void LoadProductsFromFile(string filePath, DatabaseConnection<Product> ProductsDatabase) {
-        List<Product> products;
+    static public void LoadProductsFromFile(string filePath, DB.DatabaseConnection<Product.Product> ProductsDatabase) {
+        List<Product.Product> products;
         if (File.Exists(filePath)) {
             var json = File.ReadAllText(filePath);
-            products = JsonSerializer.Deserialize<List<Product>>(json)!;
+            products = JsonSerializer.Deserialize<List<Product.Product>>(json)!;
             if (products == null) {
                 Console.WriteLine("Nie udało się odczytać produktów z pliku.");
-                products = new List<Product>();
+                products = new List<Product.Product>();
             }
         } else {
-            products = new List<Product>();
+            products = new List<Product.Product>();
         }
         foreach (var product in products)
         {
             ProductsDatabase.AddRecord(product);
         }
     }
-    static public void LoadRecipesFromFile(string filePath, DatabaseConnection<Product> ProductsDatabase, DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase) {
-        List<Recipe> recipes;
+    static public void LoadRecipesFromFile(string filePath, DB.DatabaseConnection<Product.Product> ProductsDatabase, DB.DatabaseConnection<Recipe.Recipe> RecipesDatabase) {
+        List<Recipe.Recipe> recipes;
         if (File.Exists(filePath)) {
             var options = new JsonSerializerOptions{
-            Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
+            Converters = { new Adapters.JsonAdapter.ProductConverter(), new Adapters.JsonAdapter.IngredientListConverter() }
             };
             var json = File.ReadAllText(filePath);
-            recipes = JsonSerializer.Deserialize<List<Recipe>>(json, options)!;
+            recipes = JsonSerializer.Deserialize<List<Recipe.Recipe>>(json, options)!;
             if (recipes == null) {
                 Console.WriteLine("Nie udało się odczytać przepisów z pliku.");
-                recipes = new List<Recipe>();
+                recipes = new List<Recipe.Recipe>();
             }
         } else {
-            recipes = new List<Recipe>();
+            recipes = new List<Recipe.Recipe>();
         }
         foreach (var recipe in recipes)
         {
@@ -296,7 +289,7 @@ public class Program {
             RecipesDatabase.AddRecord(recipe);
         }
     }
-    static public void OnShopping(ShoppingList shoppingList, DatabaseConnection<Product> ProductsDatabase){
+    static public void OnShopping(ShoppingList.ShoppingList shoppingList, DB.DatabaseConnection<Product.Product> ProductsDatabase){
         MarkAsAddedDecorator markAsAdded = new MarkAsAddedDecorator(shoppingList);
         string option="";
         while(true){
@@ -307,7 +300,7 @@ public class Program {
             if(option=="0"){
                 break;
             }
-            Product product = ProductsDatabase.GetRecordByName(option)?.obj!;
+            Product.Product product = ProductsDatabase.GetRecordByName(option)?.obj!;
             if (product == null) {
                 Console.WriteLine("Nie znaleziono produktu o podanej nazwie.");
                 continue;
@@ -354,7 +347,7 @@ public class Program {
 
         //Historia posiłków
         string historyFilePath = "mealHistory.json";
-        MealHistory mealHistory = new MealHistory();
+        Meal.MealHistory mealHistory = new Meal.MealHistory();
         mealHistory.LoadFromFile(historyFilePath);
         int TotalCalories = 0;
         double TotalProtein = 0;
@@ -405,8 +398,8 @@ public class Program {
         Console.WriteLine("|");
         Console.WriteLine(new string('-', 113));
         //Bazy danychy
-        var RecipesDatabase = ConnectionManager.getInstance().getConnection<RecipeNamespace.Recipe>("Recipes");
-        var ProductsDatabase = ConnectionManager.getInstance().getConnection<Product>("Products");
+        var RecipesDatabase = DB.ConnectionManager.getInstance().getConnection<Recipe.Recipe>("Recipes");
+        var ProductsDatabase = DB.ConnectionManager.getInstance().getConnection<Product.Product>("Products");
 
         //Tutaj będzie odczytywanie do bazy danych z plików jakichś przykąłdowych rekodrów
         LoadProductsFromFile("products.json", ProductsDatabase);
@@ -539,7 +532,7 @@ public class Program {
                                 int recipeIndex = GetIntFromString("Podaj numer przepisu, który chcesz dodać:") - 1;
                                 if (recipeIndex >= 0 && recipeIndex < allRecipes.Count)
                                 {
-                                    Recipe selectedRecipe = allRecipes[recipeIndex].obj;
+                                    Recipe.Recipe selectedRecipe = allRecipes[recipeIndex].obj;
                                     newMeal.Recipes.Add(selectedRecipe);
                                     Console.WriteLine("Dodano przepis.");
                                     continue;
@@ -609,7 +602,7 @@ public class Program {
                 Console.WriteLine("Wybierz zakres dat (format: dd/MM/yyyy, np. 22.01.2025):");
                 DateTime startDate = GetDateFromString("Od: ");
                 DateTime endDate = GetDateFromString("Do: ");
-                ShoppingList shoppingList = new ShoppingList();
+                ShoppingList.ShoppingList shoppingList = new ShoppingList.ShoppingList();
                 var mealsInRange = mealHistory.History
                     .Where(m => m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
                     .ToList();
@@ -638,7 +631,7 @@ public class Program {
                 Console.WriteLine("Wybierz format eksportu (json/xml/txt):");
                 string exportFormat = Console.ReadLine()?.ToLower()!;
 
-                var fileManager = new Adapter.FileSaveManager();
+                var fileManager = new Adapters.FileSaveAdapter.FileSaveManager();
                 switch (exportFormat)
                 {
                     case "json":
@@ -670,3 +663,4 @@ public class Program {
     }
 
 } 
+}
