@@ -22,10 +22,16 @@ public class IngredientListAdapter : IJsonAdapter<RecipeNamespace.IngredientList
             foreach (var ingredientElement in ingredientsArray)
             {
                 var productJson = ingredientElement.GetProperty("Product");
-                var product = JsonSerializer.Deserialize<Product>(productJson.GetRawText(), options);
                 var amount = ingredientElement.GetProperty("Amount").GetDouble();
+                var product = JsonSerializer.Deserialize<Product>(productJson.GetRawText(), options);
 
-                ingredientList.Add(product, amount);
+                if (product != null) {
+                    ingredientList.Add(product, amount);
+                } else {
+                    Console.WriteLine("Product could not be loaded.");
+                    continue;
+                }
+
             }
         }
 

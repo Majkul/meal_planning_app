@@ -10,6 +10,39 @@ using ShoppingListNamespace;
 using Microsoft.VisualBasic;
 using System.ComponentModel;
 public class Program {
+    private static double GetDoubleFromString(string message) {
+        while (true) {
+            Console.WriteLine(message);
+            try {
+                return Convert.ToDouble(Console.ReadLine());
+            } catch (FormatException) {
+                Console.WriteLine("Nieprawidłowa liczba. Spróbuj ponownie.\n");
+            }
+        }
+    }
+
+    private static int GetIntFromString(string message) {
+        while (true) {
+            Console.WriteLine(message);
+            try {
+                return Convert.ToInt32(Console.ReadLine());
+            } catch (FormatException) {
+                Console.WriteLine("Nieprawidłowa liczba. Spróbuj ponownie.\n");
+            }
+        }
+    }
+
+    private static DateTime GetDateFromString(string message) {
+        while (true) {
+            Console.WriteLine(message);
+            try {
+                return Convert.ToDateTime(Console.ReadLine());
+            } catch (FormatException) {
+                Console.WriteLine("Nieprawidłowa data. Spróbuj ponownie.\n");
+            }
+        }
+    }
+
     public static void AddingRecipes(DatabaseConnection<RecipeNamespace.Recipe> RecipesDatabase, DatabaseConnection<Product> ProductsDatabase){
         Console.WriteLine("Dodawanie nowego przepisu...");
         RecipeBuilder recipeBuilder = new RecipeBuilder();
@@ -17,19 +50,17 @@ public class Program {
 
 
         Console.WriteLine("Podaj nazwę przepisu:");
-        string recipeName = Console.ReadLine();
-        var existingRecipe = RecipesDatabase.GetAllRecords().FirstOrDefault(r => r.obj.Name == recipeName);
-        if (existingRecipe != null)
-        {
-            Console.WriteLine("Przepis o tej nazwie już istnieje. Podaj inną nazwę:");
-            recipeName = Console.ReadLine();
-            existingRecipe = RecipesDatabase.GetAllRecords().FirstOrDefault(r => r.obj.Name == recipeName);
-            if (existingRecipe != null)
+        string recipeName;
+        while(true) {
+            recipeName = Console.ReadLine() ?? $"Recipe {RecipesDatabase.GetAllRecords().Count + 1}";
+            var existingRecipe = RecipesDatabase.GetAllRecords().FirstOrDefault(r => r.obj.Name == recipeName);
+            if (existingRecipe == null)
             {
-                Console.WriteLine("Przepis o tej nazwie już istnieje. Anulowano dodawanie przepisu.");
-                return;
+                break;
             }
+            Console.WriteLine("Przepis o tej nazwie już istnieje. Podaj inną nazwę:");
         }
+
         recipeBuilder.AddName(recipeName);
 
         bool addingIngredients = true;
@@ -47,15 +78,15 @@ public class Program {
             Console.WriteLine("4. Cofnij ostatnią operację");
             Console.WriteLine("5. Ponów ostatnią operację");
             Console.WriteLine("6. Zakończ i zapisz przepis");
-            string subChoice = Console.ReadLine();
+            string subChoice = Console.ReadLine()!;
 
             switch (subChoice)
             {
                 case "1": // Dodawanie składnika
                     Console.WriteLine("Czy chcesz dodać nowy składnik czy wybrać z listy? (nowy/lista)");
-                    string ingredientChoice = Console.ReadLine();
+                    string ingredientChoice = Console.ReadLine()?.ToLower()!;
 
-                    if (ingredientChoice.ToLower() == "lista")
+                    if (ingredientChoice == "lista" || ingredientChoice == "l")
                     {
                         var allProducts = ProductsDatabase.GetAllRecords();
                         if (allProducts.Count == 0)
@@ -70,74 +101,73 @@ public class Program {
                             {
                                 Console.WriteLine($"{i + 1}. {allProducts[i].obj.Name}");
                             }
-                            Console.WriteLine("Podaj numer składnika, który chcesz dodać:");
-                            int productIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+                            int productIndex = GetIntFromString("Podaj numer składnika, który chcesz dodać:") - 1;
                             if (productIndex >= 0 && productIndex < allProducts.Count)
                             {
                                 Product selectedProduct = allProducts[productIndex].obj;
-                                Console.WriteLine("Podaj ilość składnika:");
-                                double selectedAmount = Convert.ToDouble(Console.ReadLine());
+                                double selectedAmount = GetDoubleFromString("Podaj ilość składnika:");
                                 commandManager.ExecuteCommand(new AddIngredientCommand(recipeBuilder, selectedProduct, selectedAmount));
                                 Console.WriteLine("Dodano składnik.");
                                 break;
                             }
                             else
                             {
-                                Console.WriteLine("Nieprawidłowy numer. Dodawanie nowego składnika.");
+                                Console.WriteLine("Nieprawidłowy numer.\n");
                                 break;
                             }
                         }
-                    }
-                    Console.WriteLine("Podaj nazwę składnika:");
-                    string productName = Console.ReadLine();
-                    Console.WriteLine("Podaj ilość składnika:");
-                    double amount = Convert.ToDouble(Console.ReadLine());
-                    Product.Units unit;
-                    while (true)
-                    {
-                        Console.WriteLine("Podaj jednostkę składnika:");
-                        string unitInput = Console.ReadLine();
-                        if (Enum.TryParse(unitInput, true, out unit))
+                    } else if (ingredientChoice == "nowy" || ingredientChoice == "n") {
+                        Console.WriteLine("Podaj nazwę składnika:");
+                        string productName = Console.ReadLine() ?? $"Product {ProductsDatabase.GetAllRecords().Count + 1}";
+                        double amount = GetDoubleFromString("Podaj ilość składnika:");
+                        Product.Units unit;
+                        while (true)
                         {
-                            break;
+                            Console.WriteLine("Podaj jednostkę składnika: (Grams, Milliliters, Units)");
+                            string unitInput = Console.ReadLine()!;
+                            if (Enum.TryParse(unitInput, true, out unit))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.\n");
+                            }
                         }
-                        else
+                        Product.Categories category;
+                        while (true)
                         {
-                            Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.");
+                            Console.WriteLine("Podaj kategorię składnika: (Fruit, Vegetable, Meat, Dairy, Grain, Other)");
+                            string categoryInput = Console.ReadLine()!;
+                            if (Enum.TryParse(categoryInput, true, out category))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.\n");
+                            }
                         }
-                    }
-                    Product.Categories category;
-                    while (true)
-                    {
-                        Console.WriteLine("Podaj kategorię składnika:");
-                        string categoryInput = Console.ReadLine();
-                        if (Enum.TryParse(categoryInput, true, out category))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Nieprawidłowa jednostka. Spróbuj ponownie.");
-                        }
-                    }
-                    Console.WriteLine("Podaj ilość białka:");
-                    double protein = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("Podaj ilość tłuszczu:");
-                    double fat = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("Podaj ilość węglowodanów:");
-                    double carbohydrates = Convert.ToDouble(Console.ReadLine());
+                        double protein = GetDoubleFromString("Podaj ilość białka:");
+                        double fat = GetDoubleFromString("Podaj ilość tłuszczu:");
+                        double carbohydrates = GetDoubleFromString("Podaj ilość węglowodanów:");
 
-                    Product product = new Product(productName, unit, category, protein, fat, carbohydrates);
-                   
-                    ICommand addIngredientCommand = new AddIngredientCommand(recipeBuilder, product, amount);
-                    commandManager.ExecuteCommand(addIngredientCommand);
-                    Console.WriteLine("Dodano składnik.");
+                        Product product = new Product(productName, unit, category, protein, fat, carbohydrates);
+                    
+                        ICommand addIngredientCommand = new AddIngredientCommand(recipeBuilder, product, amount);
+                        commandManager.ExecuteCommand(addIngredientCommand);
+                        Console.WriteLine("Dodano składnik.");
+                        break;
+                    } else {
+                        Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
+                        break;
+                    }
                     break;
-
+                    
                 case "2": // Usuwanie składnika
                     Console.WriteLine("Podaj nazwę składnika do usunięcia:");
-                    string ingredientName = Console.ReadLine();
-                    Product ingredientToRemove = recipeBuilder.Build().Ingredients.Ingredients.FirstOrDefault(i => i.Product.Name == ingredientName)?.Product;
+                    string ingredientName = Console.ReadLine()?.ToLower()!;
+                    Product ingredientToRemove = recipeBuilder.Build().Ingredients.Ingredients.FirstOrDefault(i => i.Product.Name.ToLower() == ingredientName)?.Product!;
 
                     if (ingredientToRemove != null)
                     {
@@ -153,7 +183,7 @@ public class Program {
 
                 case "3": // Dodawanie kroku instrukcji
                     Console.WriteLine("Podaj instrukcję:");
-                    string instruction = Console.ReadLine();
+                    string instruction = Console.ReadLine() ?? $"Instruction {recipeBuilder.Build().Instructions.Count + 1}";
                     recipeBuilder.AddInstructionStep(instruction);
                     Console.WriteLine("Dodano krok instrukcji.");
                     break;
@@ -178,7 +208,7 @@ public class Program {
                     break;
 
                 default:
-                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
                     break;
             }
         }
@@ -201,7 +231,7 @@ public class Program {
     }
     static List<Meal.Meal.MealMemento> GetMealsForDate(MealHistory mealHistory, DateTime date){
         // Inicjalizuj listę wyników (5 pozycji, jedna na każdy rodzaj posiłku)
-        List<Meal.Meal.MealMemento> mealsForDate = new List<Meal.Meal.MealMemento> { null, null, null, null, null };
+        List<Meal.Meal.MealMemento> mealsForDate = new List<Meal.Meal.MealMemento> { null!, null!, null!, null!, null! };
 
         // Filtrowanie posiłków z historii dla podanej daty
         var mealsOnDate = mealHistory.History
@@ -229,7 +259,11 @@ public class Program {
         List<Product> products;
         if (File.Exists(filePath)) {
             var json = File.ReadAllText(filePath);
-            products = JsonSerializer.Deserialize<List<Product>>(json);
+            products = JsonSerializer.Deserialize<List<Product>>(json)!;
+            if (products == null) {
+                Console.WriteLine("Nie udało się odczytać produktów z pliku.");
+                products = new List<Product>();
+            }
         } else {
             products = new List<Product>();
         }
@@ -245,7 +279,11 @@ public class Program {
             Converters = { new Adapter.ProductConverter(), new Adapter.IngredientListConverter() }
             };
             var json = File.ReadAllText(filePath);
-            recipes = JsonSerializer.Deserialize<List<Recipe>>(json, options);
+            recipes = JsonSerializer.Deserialize<List<Recipe>>(json, options)!;
+            if (recipes == null) {
+                Console.WriteLine("Nie udało się odczytać przepisów z pliku.");
+                recipes = new List<Recipe>();
+            }
         } else {
             recipes = new List<Recipe>();
         }
@@ -265,18 +303,17 @@ public class Program {
             markAsAdded.DisplayProducts();
             Console.WriteLine("Podaj nazwę produktu, który chcesz dodać do koszyka:");
             Console.WriteLine("0. Wyjdź");
-            option = Console.ReadLine();
+            option = Console.ReadLine()!;
             if(option=="0"){
                 break;
             }
-            try{
-                Product product = ProductsDatabase.GetRecordByName(option).obj;
-                markAsAdded.MarkAsAdded(product);
-                Console.WriteLine($"Dodano produkt: {product.Name}");
+            Product product = ProductsDatabase.GetRecordByName(option)?.obj!;
+            if (product == null) {
+                Console.WriteLine("Nie znaleziono produktu o podanej nazwie.");
+                continue;
             }
-            catch(System.NullReferenceException){
-                Console.WriteLine("Nie znaleziono produktu.");
-            }
+            markAsAdded.MarkAsAdded(product);
+            Console.WriteLine($"Dodano produkt: {product.Name}");
         }
     }
     public static void Main()
@@ -297,10 +334,6 @@ public class Program {
         {
             Console.Write("|");
             string dayName = daysOfWeek[i].ToString("dddd", new CultureInfo("en-US"));
-            if (daysOfWeek[i] == today)
-            {
-                dayName = dayName;
-            }
 
             Console.Write(dayName.PadLeft((15 - dayName.Length) / 2 + dayName.Length)
                                  .PadRight(15));
@@ -392,12 +425,12 @@ public class Program {
         LoadProductsAndRecipesFromMealsHistory(mealHistory, ProductsDatabase, RecipesDatabase);
 
         //Menu
-        Console.WriteLine("1. Zmień dzień za pomocą < lub >");
+        Console.WriteLine("1. Zmień dzień za pomocą < lub >, lub wpisz datę w formacie dd.MM.yyyy");
         Console.WriteLine("2. Dodaj posiłek");
         Console.WriteLine("3. Wyświetlanie listy zakupów");
         Console.WriteLine("4. Wyeksportuj historię posiłków");
         Console.WriteLine("0. Wyjdź");
-        opcja = Console.ReadLine();
+        opcja = Console.ReadLine()!;
         switch(opcja){
             case "<":
                 Console.WriteLine("Zmieniono dzień na poprzedni");
@@ -409,9 +442,9 @@ public class Program {
                 break;
             case "2":
                 Console.WriteLine("Czy chcesz skopiować posiłek z innego dnia? (tak/nie)");
-                string copyMeal = Console.ReadLine();
+                string copyMeal = Console.ReadLine()?.ToLower()!;
 
-                if (copyMeal.ToLower() == "tak") { //TODO niech wyświetlają się unikatowe posiłki, w sensie żeby się nie powtarzały przez to że są te same posiłki na różne daty
+                if (copyMeal == "tak" || copyMeal == "t") { //TODO niech wyświetlają się unikatowe posiłki, w sensie żeby się nie powtarzały przez to że są te same posiłki na różne daty
 
                     // Wyświetl historię posiłków
                     if (mealHistory.History.Count == 0) {
@@ -427,15 +460,14 @@ public class Program {
                         }
                         Console.WriteLine(new string('-', 100));
 
-                        Console.WriteLine("Podaj numer posiłku, który chcesz skopiować:");
-                        int mealIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+                        int mealIndex = GetIntFromString("Podaj numer posiłku, który chcesz skopiować:") - 1;
                         if (mealIndex >= 0 && mealIndex < mealHistory.History.Count) {
                             Meal.Meal meal = new Meal.Meal();
                             meal.Restore(mealHistory.Get(mealIndex));
                             meal.Date = today;
                             Console.WriteLine($"Czy chcesz dodać posiłek {meal.Name} do dnia {meal.Date.ToString("dd.MM.yyyy")} i pory {meal.Type}? (tak/nie)");
-                            string confirmAddMeal = Console.ReadLine();
-                            if (confirmAddMeal.ToLower() == "tak")
+                            string confirmAddMeal = Console.ReadLine()?.ToLower()!;
+                            if (confirmAddMeal == "tak" || confirmAddMeal == "t")
                             {
                                 mealHistory.Add(meal.Save());
                                 mealHistory.SaveToFile(historyFilePath);
@@ -445,14 +477,14 @@ public class Program {
                             {
                                 Console.WriteLine("1.Zmiana pory posiłku");
                                 Console.WriteLine("2.Anulowanie dodawania posiłku.");
-                                string confirmAddMeal2 = Console.ReadLine();
+                                string confirmAddMeal2 = Console.ReadLine()!;
                                 if (confirmAddMeal2 == "1")
                                 {
                                     Console.WriteLine("Podaj typ posiłku (Breakfast, SnackI, Lunch, SnackII, Dinner):");
                                     Meal.Meal.MealType mealType;
                                     while (true)
                                     {
-                                        string mealTypeInput = Console.ReadLine();
+                                        string mealTypeInput = Console.ReadLine()!;
                                         if (Enum.TryParse(mealTypeInput, true, out mealType))
                                         {
                                             meal.Type = mealType;
@@ -460,7 +492,7 @@ public class Program {
                                         }
                                         else
                                         {
-                                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.");
+                                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.\n");
                                         }
                                     }
                                     mealHistory.Add(meal.Save());
@@ -474,23 +506,22 @@ public class Program {
                             }
 
                         } else {
-                            Console.WriteLine("Nieprawidłowy numer.");
+                            Console.WriteLine("Nieprawidłowy numer.\n");
                         }
                     }
                 } 
-                else {
+                else if (copyMeal == "nie" || copyMeal == "n") {
                     Meal.Meal newMeal = new Meal.Meal();
                     Console.WriteLine("Podaj nazwę posiłku:");
-                    newMeal.Name = Console.ReadLine();
-                    Console.WriteLine("Ile przepisów chcesz dodać do posiłku?");
-                    int recipeCount = Convert.ToInt32(Console.ReadLine());
+                    newMeal.Name = Console.ReadLine() ?? $"Meal {mealHistory.History.Count + 1}";
+                    int recipeCount = GetIntFromString("Ile przepisów chcesz dodać do posiłku?");
 
                     for (int i = 0; i < recipeCount; i++) {
                         Console.WriteLine($"Dodawanie przepisu {i + 1} z {recipeCount}:");
                         Console.WriteLine("Czy chcesz dodać nowy przepis czy wybrać z listy? (nowy/lista)");
-                        string recipeChoice = Console.ReadLine();
+                        string recipeChoice = Console.ReadLine()?.ToLower()!;
 
-                        if (recipeChoice.ToLower() == "lista")
+                        if (recipeChoice == "lista" || recipeChoice == "l")
                         {
                             var allRecipes = RecipesDatabase.GetAllRecords();
                             if (allRecipes.Count == 0)
@@ -505,8 +536,7 @@ public class Program {
                                 {
                                     Console.WriteLine($"{j + 1}. {allRecipes[j].obj.Name}");
                                 }
-                                Console.WriteLine("Podaj numer przepisu, który chcesz dodać:");
-                                int recipeIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+                                int recipeIndex = GetIntFromString("Podaj numer przepisu, który chcesz dodać:") - 1;
                                 if (recipeIndex >= 0 && recipeIndex < allRecipes.Count)
                                 {
                                     Recipe selectedRecipe = allRecipes[recipeIndex].obj;
@@ -516,20 +546,35 @@ public class Program {
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Nieprawidłowy numer. Dodawanie nowego przepisu.");
+                                    Console.WriteLine("Nieprawidłowy numer. Dodawanie nowego przepisu.\n");
                                     recipeChoice = "nowy";
                                 }
                             }
                         }
-                        AddingRecipes(RecipesDatabase, ProductsDatabase);
-                        var test = RecipesDatabase.GetLastRecord();
-                        newMeal.Recipes.Add(test);
+                        else if (recipeChoice == "nowy" || recipeChoice == "n")
+                        {
+                            AddingRecipes(RecipesDatabase, ProductsDatabase);
+                            var newestRecipe = RecipesDatabase.GetLastRecord();
+                            if (newestRecipe != null)
+                            {
+                                newMeal.Recipes.Add(newestRecipe);
+                            } else {
+                                Console.WriteLine("Nie udało się dodać przepisu.");
+                                i--;
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
+                            i--;
+                        }
                     }
                     Console.WriteLine("Podaj typ posiłku (Śniadanie, Drugie śniadanie, Obiad, Podwieczorek, Kolacja):");
                     Meal.Meal.MealType mealType;
                     while (true)
                     {
-                        string mealTypeInput = Console.ReadLine();
+                        string mealTypeInput = Console.ReadLine()!;
                         if (Enum.TryParse(mealTypeInput, true, out mealType))
                         {
                             newMeal.Type = mealType;
@@ -537,13 +582,13 @@ public class Program {
                         }
                         else
                         {
-                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.");
+                            Console.WriteLine("Nieprawidłowy typ posiłku. Spróbuj ponownie.\n");
                         }
                     }
                     newMeal.Date = today;
                     Console.WriteLine($"Czy chcesz dodać posiłek {newMeal.Name} do dnia {newMeal.Date.ToString("dd.MM.yyyy")} i pory {newMeal.Type}? (tak/nie)");
-                    string confirmAddMeal = Console.ReadLine();
-                    if (confirmAddMeal.ToLower() == "tak")
+                    string confirmAddMeal = Console.ReadLine()?.ToLower()!;
+                    if (confirmAddMeal == "tak" || confirmAddMeal == "t")
                     {
                         mealHistory.Add(newMeal.Save());
                         mealHistory.SaveToFile(historyFilePath);
@@ -555,14 +600,15 @@ public class Program {
                     }
                     
                 }
+                else {
+                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.\n");
+                }
                 break;
 
             case "3":
                 Console.WriteLine("Wybierz zakres dat (format: dd/MM/yyyy, np. 22.01.2025):");
-                Console.Write("Od: ");
-                DateTime startDate = DateTime.Parse(Console.ReadLine());
-                Console.Write("Do: ");
-                DateTime endDate = DateTime.Parse(Console.ReadLine());
+                DateTime startDate = GetDateFromString("Od: ");
+                DateTime endDate = GetDateFromString("Do: ");
                 ShoppingList shoppingList = new ShoppingList();
                 var mealsInRange = mealHistory.History
                     .Where(m => m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
@@ -578,34 +624,48 @@ public class Program {
                 CategorizedDisplayDecorator categorizedDisplay = new CategorizedDisplayDecorator(shoppingList);
                 categorizedDisplay.DisplayProducts();
                 Console.WriteLine("Czy wyświetlić w trybie dodawania do koszyka? (tak/nie)");
-                string addToCart = Console.ReadLine();
-                if (addToCart.ToLower() == "tak")
+                string addToCart = Console.ReadLine()?.ToLower()!;
+                if (addToCart == "tak" || addToCart == "t")
                 {
                     OnShopping(shoppingList, ProductsDatabase);
                 }
+                else
+                {
+                    Console.WriteLine("Anulowano dodawanie do koszyka.");
+                }
                 break;
             case "4":
-            Console.WriteLine("Wybierz format eksportu (json/xml/txt):");
-            string exportFormat = Console.ReadLine().ToLower();
+                Console.WriteLine("Wybierz format eksportu (json/xml/txt):");
+                string exportFormat = Console.ReadLine()?.ToLower()!;
 
-            var fileManager = new Adapter.FileSaveManager();
-            switch (exportFormat)
-            {
-                case "json":
-                    fileManager.SaveToFile("mealHistory.json", mealHistory);
-                    break;
-                case "txt":
-                    fileManager.SaveToFile("mealHistory.txt", mealHistory);
-                    Console.WriteLine("Historia posiłków została wyeksportowana do formatu TXT.");
-                    break;
-                default:
-                    Console.WriteLine("Nieprawidłowy format eksportu.");
-                    break;
-            }
-                mealHistory.SaveToFile(".//exportData.json");
-                Console.WriteLine("Historia posiłków została wyeksportowana.");
+                var fileManager = new Adapter.FileSaveManager();
+                switch (exportFormat)
+                {
+                    case "json":
+                        fileManager.SaveToFile($"export-{today:dd.MM.yyyy-HH.mm.ss}.json", mealHistory);
+                        Console.WriteLine("Historia posiłków została wyeksportowana do formatu JSON.");
+                        break;
+                    case "txt":
+                        fileManager.SaveToFile($"export-{today:dd.MM.yyyy-HH.mm.ss}.txt", mealHistory);
+                        Console.WriteLine("Historia posiłków została wyeksportowana do formatu TXT.");
+                        break;
+                    default:
+                        Console.WriteLine("Nieprawidłowy format eksportu.\n");
+                        break;
+                }
                 break;
-        }
+            case "0":
+                break;
+            default:
+                var previousDate = today;
+                if (DateTime.TryParse(opcja, out today)) {
+                    Console.WriteLine("Zmieniono dzień na: " + today.ToString("dd.MM.yyyy"));
+                } else {
+                    today = previousDate;
+                    Console.WriteLine("Nieprawidłowa opcja. Spróbuj ponownie.");
+                }
+                break;
+            }
         }
     }
 
