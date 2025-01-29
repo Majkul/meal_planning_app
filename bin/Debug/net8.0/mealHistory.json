@@ -1096,5 +1096,129 @@
         "Carbohydrates": 49
       }
     ]
+  },
+  {
+    "Name": "Fruit Salad",
+    "Date": "2025-01-29T00:00:00+01:00",
+    "Type": 0,
+    "Recipes": [
+      {
+        "Name": "Fruit Salad",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Apple",
+              "Category": "Fruit",
+              "Unit": "Grams",
+              "Protein": 0.3,
+              "Fat": 0.2,
+              "Carbohydrates": 25
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Banana",
+              "Category": "Fruit",
+              "Unit": "Grams",
+              "Protein": 1.1,
+              "Fat": 0.3,
+              "Carbohydrates": 27
+            },
+            "Amount": 100
+          }
+        ],
+        "Instructions": [
+          "Chop all the fruits into bite-sized pieces.",
+          "Mix them together in a bowl.",
+          "Serve chilled."
+        ],
+        "TotalTime": "00:10:00",
+        "Calories": 200,
+        "Protein": 1.4,
+        "Fat": 0.5,
+        "Carbohydrates": 52
+      }
+    ]
+  },
+  {
+    "Name": "Makaron",
+    "Date": "2025-01-29T00:00:00+01:00",
+    "Type": 2,
+    "Recipes": [
+      {
+        "Name": "Makaron ze szpinakiem",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Chicken Breast",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 31,
+              "Fat": 3.6,
+              "Carbohydrates": 0
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Szpinak",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 10,
+              "Fat": 10,
+              "Carbohydrates": 10
+            },
+            "Amount": 200
+          }
+        ],
+        "Instructions": [],
+        "TotalTime": "00:00:00",
+        "Calories": 49640,
+        "Protein": 5100,
+        "Fat": 2360,
+        "Carbohydrates": 2000
+      }
+    ]
+  },
+  {
+    "Name": "Makaron",
+    "Date": "2025-01-29T00:00:00+01:00",
+    "Type": 2,
+    "Recipes": [
+      {
+        "Name": "Makaron ze szpinakiem",
+        "Ingredients": [
+          {
+            "Product": {
+              "Name": "Chicken Breast",
+              "Category": "Meat",
+              "Unit": "Grams",
+              "Protein": 31,
+              "Fat": 3.6,
+              "Carbohydrates": 0
+            },
+            "Amount": 100
+          },
+          {
+            "Product": {
+              "Name": "Szpinak",
+              "Category": "Vegetable",
+              "Unit": "Grams",
+              "Protein": 10,
+              "Fat": 10,
+              "Carbohydrates": 10
+            },
+            "Amount": 200
+          }
+        ],
+        "Instructions": [],
+        "TotalTime": "00:00:00",
+        "Calories": 49640,
+        "Protein": 5100,
+        "Fat": 2360,
+        "Carbohydrates": 2000
+      }
+    ]
   }
 ]
