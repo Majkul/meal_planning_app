@@ -32,5 +32,16 @@ public static class VarServices{
             }
         }
     }
+
+    public static T GetEnumFromString<T>(string message) where T : Enum {
+        while (true) {
+            Console.WriteLine(message);
+            try {
+                return (T)Enum.Parse(typeof(T), Console.ReadLine()!, true);
+            } catch (ArgumentException) {
+                Console.WriteLine("Nieprawidłowe dane. Spróbuj ponownie.\n");
+            }
+        }
+    }
 }
 }

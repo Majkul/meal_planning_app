@@ -84,6 +84,7 @@ public class Program {
             Console.WriteLine("|");
             Console.WriteLine(new string('-', 113));
         }
+
         //Kalorie z całego dnia
         Console.Write("|");
         string summaryAllDay = $"Total:   Kcal: {TotalCalories}, Prot.: {TotalProtein}g, Fats: {TotalFat}g, Carbs: {TotalCarbohydrates}g";
@@ -122,7 +123,7 @@ public class Program {
                 string copyMeal = Console.ReadLine()?.ToLower()!;
 
                 if (copyMeal == "tak" || copyMeal == "t") {
-                    MealServices.DisplayMealHistory(mealHistory, historyFilePath);
+                    MealServices.AddMealFromMealHistory(mealHistory, historyFilePath);
                 } 
                 else if (copyMeal == "nie" || copyMeal == "n") {
                     MealServices.AddNewMeal(mealHistory, historyFilePath, ProductsDatabase, RecipesDatabase);
