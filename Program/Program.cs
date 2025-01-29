@@ -42,8 +42,6 @@ public class Program {
         string historyFilePath = "mealHistory.json";
         Meal.MealHistory mealHistory = new Meal.MealHistory();
         mealHistory.LoadFromFile(historyFilePath);
-        
-        UIHandler.CalculateAndDisplaySummary(mealHistory, today, meals);
 
         //Bazy danychy
         var RecipesDatabase = DB.ConnectionManager.getInstance().getConnection<Recipe.Recipe>("Recipes");
@@ -55,6 +53,9 @@ public class Program {
 
         //Załaduj produkty i przepisy z historii posiłków
         DataLoader.LoadProductsAndRecipesFromMealsHistory(mealHistory, ProductsDatabase, RecipesDatabase);
+
+        // Obliczanie i wyświetlanie podsumowania
+        UIHandler.CalculateAndDisplaySummary(mealHistory, today, meals);
 
         //Menu
         Console.WriteLine("1. Zmień dzień za pomocą < lub >, lub wpisz datę w formacie dd.MM.yyyy");
